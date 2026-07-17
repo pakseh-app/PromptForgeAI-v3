@@ -5,11 +5,9 @@
 
 function generateProfessionalPrompt(){
 
-    const idea=document.getElementById("idea").value.trim();
-
-    if(idea===""){
-
-        alert("Silakan masukkan ide desain terlebih dahulu.");
+    const template=
+PromptTemplates[data.detect.industry]||
+PromptTemplates.General;
 
         return;
 
