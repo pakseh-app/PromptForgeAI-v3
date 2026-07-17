@@ -103,12 +103,31 @@ ${data.size}
 
 OBJECTIVE
 
-Create a premium quality ${data.category} that immediately attracts attention.
+${template.objective}
 
-The final result must look professional,
-commercial,
-modern,
-and visually outstanding.
+==================================================
+
+COMPOSITION
+
+${template.composition}
+
+==================================================
+
+TYPOGRAPHY
+
+${template.typography}
+
+==================================================
+
+LIGHTING
+
+${template.lighting}
+
+==================================================
+
+CAMERA
+
+${template.camera}
 
 ==================================================
 
