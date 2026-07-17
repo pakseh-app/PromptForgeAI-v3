@@ -1,226 +1,348 @@
 /* =====================================================
-   PROMPTFORGE AI v3
+   PROMPTFORGE AI v3.5
    DATABASE.JS
-   Prompt Database
 ===================================================== */
 
 const promptDB = {
+
+    version: "3.5",
+
+    // =========================================
+    // CATEGORY
+    // =========================================
 
     categories: {
 
         poster: {
             name: "Poster",
-            keywords: [
-                "poster",
-                "promosi",
-                "event",
-                "seminar",
-                "konser",
-                "lomba",
-                "kampanye",
-                "festival"
-            ]
+            goal: "Professional promotional poster",
+            ratio: "70:99",
+            dpi: "300 DPI",
+            output: "Print Ready"
         },
 
         banner: {
             name: "Banner",
-            keywords: [
-                "banner",
-                "spanduk",
-                "billboard",
-                "backdrop"
-            ]
+            goal: "Advertising Banner",
+            ratio: "16:9",
+            dpi: "300 DPI",
+            output: "High Resolution"
         },
 
         flyer: {
             name: "Flyer",
-            keywords: [
-                "flyer",
-                "brosur",
-                "leaflet",
-                "pamflet"
-            ]
+            goal: "Marketing Flyer",
+            ratio: "A5",
+            dpi: "300 DPI",
+            output: "Print Ready"
         },
 
         thumbnail: {
             name: "Thumbnail",
-            keywords: [
-                "thumbnail",
-                "youtube",
-                "cover video"
-            ]
+            goal: "High CTR Thumbnail",
+            ratio: "16:9",
+            dpi: "72 DPI",
+            output: "Digital"
         },
 
         logo: {
             name: "Logo",
-            keywords: [
-                "logo",
-                "brand",
-                "maskot",
-                "icon"
-            ]
+            goal: "Brand Identity",
+            ratio: "1:1",
+            dpi: "Vector",
+            output: "SVG / AI"
         },
 
         invitation: {
             name: "Invitation",
-            keywords: [
-                "undangan",
-                "nikah",
-                "wedding",
-                "aqiqah",
-                "khitan"
-            ]
+            goal: "Premium Invitation",
+            ratio: "A5",
+            dpi: "300 DPI",
+            output: "Print Ready"
         },
 
         packaging: {
             name: "Packaging",
-            keywords: [
-                "kemasan",
-                "packaging",
-                "label",
-                "box"
-            ]
+            goal: "Product Packaging",
+            ratio: "Custom",
+            dpi: "300 DPI",
+            output: "Packaging Ready"
         }
 
     },
 
+    // =========================================
+    // STYLE
+    // =========================================
+
     styles: {
 
-        modern: [
-            "modern",
-            "clean",
-            "simple",
-            "minimal"
-        ],
+        modern: {
+            title: "Modern",
+            description:
+                "clean modern design, premium layout, bold typography"
+        },
 
-        luxury: [
-            "luxury",
-            "elegan",
-            "premium",
-            "gold"
-        ],
+        luxury: {
+            title: "Luxury",
+            description:
+                "gold accents, elegant typography, premium appearance"
+        },
 
-        futuristic: [
-            "future",
-            "futuristic",
-            "cyberpunk",
-            "technology"
-        ],
+        minimal: {
+            title: "Minimal",
+            description:
+                "minimalist composition, white space, clean layout"
+        },
 
-        cartoon3d: [
-            "3d",
-            "kartun",
-            "pixar",
-            "disney"
-        ],
+        futuristic: {
+            title: "Futuristic",
+            description:
+                "cyberpunk interface, hologram effect, neon lighting"
+        },
 
-        realistic: [
-            "realistic",
-            "photorealistic",
-            "realistis",
-            "ultra detail"
-        ]
+        cartoon3d: {
+            title: "3D Cartoon",
+            description:
+                "Pixar quality, colorful, cute, soft lighting"
+        },
 
-    },
-
-    colors: {
-
-        merah:[
-            "merah",
-            "red"
-        ],
-
-        biru:[
-            "biru",
-            "blue"
-        ],
-
-        hijau:[
-            "green",
-            "hijau"
-        ],
-
-        hitam:[
-            "black",
-            "hitam"
-        ],
-
-        putih:[
-            "white",
-            "putih"
-        ],
-
-        emas:[
-            "gold",
-            "golden",
-            "emas"
-        ],
-
-        ungu:[
-            "purple",
-            "ungu"
-        ]
+        realistic: {
+            title: "Photorealistic",
+            description:
+                "ultra realistic, DSLR photography, cinematic"
+        }
 
     },
 
-    audience:{
+    // =========================================
+    // INDUSTRY
+    // =========================================
 
-        anak:[
-            "anak",
-            "kids",
-            "playgroup",
-            "tk"
-        ],
+    industries: {
 
-        remaja:[
-            "remaja",
-            "teen"
-        ],
+        food: {
 
-        dewasa:[
-            "dewasa",
-            "adult"
-        ],
+            title: "Food & Beverage",
 
-        keluarga:[
-            "family",
-            "keluarga"
-        ]
+            palette: [
+                "Red",
+                "Orange",
+                "Black"
+            ],
+
+            typography:
+                "Bold Sans Serif",
+
+            layout:
+                "Hero Product Center",
+
+            lighting:
+                "Warm cinematic food lighting",
+
+            composition:
+                "Close-up food photography with steam effect"
+
+        },
+
+        wedding: {
+
+            title: "Wedding",
+
+            palette: [
+                "White",
+                "Gold",
+                "Cream"
+            ],
+
+            typography:
+                "Elegant Serif",
+
+            layout:
+                "Centered Elegant",
+
+            lighting:
+                "Soft romantic lighting",
+
+            composition:
+                "Luxury floral composition"
+
+        },
+
+        technology: {
+
+            title: "Technology",
+
+            palette: [
+                "Blue",
+                "Purple",
+                "Black"
+            ],
+
+            typography:
+                "Modern Sans Serif",
+
+            layout:
+                "Grid Layout",
+
+            lighting:
+                "Neon lighting",
+
+            composition:
+                "Futuristic interface"
+
+        },
+
+        education: {
+
+            title: "Education",
+
+            palette: [
+                "Blue",
+                "White",
+                "Yellow"
+            ],
+
+            typography:
+                "Friendly Sans Serif",
+
+            layout:
+                "Information Layout",
+
+            lighting:
+                "Natural lighting",
+
+            composition:
+                "Educational illustration"
+
+        },
+
+        corporate: {
+
+            title: "Corporate",
+
+            palette: [
+                "Navy",
+                "White",
+                "Gray"
+            ],
+
+            typography:
+                "Professional Sans Serif",
+
+            layout:
+                "Corporate Grid",
+
+            lighting:
+                "Studio lighting",
+
+            composition:
+                "Professional business style"
+
+        }
 
     },
 
-    qualityRules:{
+    // =========================================
+    // CAMERA
+    // =========================================
 
-        minLength:30,
+    camera: [
 
-        excellent:250,
+        "cinematic lighting",
+        "HDR",
+        "depth of field",
+        "professional composition",
+        "ultra realistic",
+        "8K",
+        "sharp focus",
+        "DSLR quality",
+        "soft shadow",
+        "global illumination"
 
-        good:150,
+    ],
 
-        medium:80
+    // =========================================
+    // PRINT
+    // =========================================
 
-    },
+    printing: [
 
-    negativePrompt:[
+        "300 DPI",
+        "CMYK color",
+        "Print Ready",
+        "Ultra High Resolution"
+
+    ],
+
+    // =========================================
+    // AI OPTIMIZATION
+    // =========================================
+
+    aiOptimization: [
+
+        "Highly detailed",
+
+        "Professional composition",
+
+        "Award winning design",
+
+        "Trending design",
+
+        "Best quality",
+
+        "Masterpiece"
+
+    ],
+
+    // =========================================
+    // NEGATIVE PROMPT
+    // =========================================
+
+    negativePrompt: [
 
         "low quality",
 
+        "low resolution",
+
         "blurry",
 
+        "noise",
+
         "cropped",
-
-        "watermark",
-
-        "text error",
 
         "duplicate",
 
         "bad anatomy",
 
-        "extra fingers",
+        "watermark",
 
-        "low resolution"
+        "logo",
 
-    ]
+        "text error",
+
+        "oversaturated",
+
+        "distorted",
+
+        "jpeg artifacts"
+
+    ],
+
+    // =========================================
+    // QUALITY
+    // =========================================
+
+    qualityRules: {
+
+        minLength: 30,
+
+        medium: 80,
+
+        good: 150,
+
+        excellent: 250
+
+    }
 
 };
