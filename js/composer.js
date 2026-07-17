@@ -1,34 +1,29 @@
 /* =====================================================
-   PROMPTFORGE AI
+   PROMPTFORGE AI v4
    COMPOSER.JS
 ===================================================== */
 
 function composeIdea(text){
 
-    text=text.toLowerCase();
+    text = text.toLowerCase();
 
     return{
+
+        object:getObject(text),
 
         headline:getHeadline(text),
 
         cta:getCTA(text),
 
-        price:getPrice(text),
-
-        object:getObject(text)
+        price:getPrice(text)
 
     };
 
 }
 
-
-/* ==========================
-OBJECT
-========================== */
-
 function getObject(text){
 
-    const objects=[
+    const list=[
 
         "bakso",
         "mie ayam",
@@ -36,18 +31,20 @@ function getObject(text){
         "kopi",
         "pizza",
         "burger",
-        "barbershop",
         "laundry",
-        "pengajian",
-        "seminar"
+        "barbershop",
+        "seminar",
+        "pengajian"
 
     ];
 
-    for(const item of objects){
+    for(const item of list){
 
-        if(text.includes(item))
+        if(text.includes(item)){
 
-            return capitalize(item);
+            return item.charAt(0).toUpperCase()+item.slice(1);
+
+        }
 
     }
 
@@ -55,35 +52,15 @@ function getObject(text){
 
 }
 
-
-/* ==========================
-PRICE
-========================== */
-
-function getPrice(text){
-
-    const match=text.match(/\d+/);
-
-    if(match){
-
-        return "Rp"+Number(match[0]).toLocaleString("id-ID");
-
-    }
-
-    return "-";
-
-}
-
-
-/* ==========================
-HEADLINE
-========================== */
-
 function getHeadline(text){
 
     if(text.includes("bakso"))
 
         return "BAKSO PEDAS SUPER MANTAP";
+
+    if(text.includes("mie"))
+
+        return "MIE AYAM FAVORIT KELUARGA";
 
     if(text.includes("kopi"))
 
@@ -91,42 +68,40 @@ function getHeadline(text){
 
     if(text.includes("laundry"))
 
-        return "CUCI CEPAT HASIL BERSIH";
+        return "CUCI CEPAT HASIL MAKSIMAL";
 
     return "PROMO SPESIAL";
 
 }
 
-
-/* ==========================
-CTA
-========================== */
-
 function getCTA(text){
 
     if(text.includes("bakso"))
 
-        return "Buruan Cobain Sekarang!";
+        return "Yuk Cobain Sekarang!";
 
     if(text.includes("kopi"))
 
-        return "Ngopi Yuk Hari Ini!";
+        return "Nikmati Harimu Bersama Kopi Kami!";
 
     if(text.includes("laundry"))
 
-        return "Hubungi Kami Sekarang!";
+        return "Hubungi Kami Hari Ini!";
 
     return "Jangan Sampai Ketinggalan!";
 
 }
 
+function getPrice(text){
 
-/* ==========================
-UTIL
-========================== */
+    const match=text.match(/\d+/);
 
-function capitalize(text){
+    if(match){
 
-    return text.replace(/\b\w/g,c=>c.toUpperCase());
+        return "Rp "+Number(match[0]).toLocaleString("id-ID");
+
+    }
+
+    return "-";
 
 }
