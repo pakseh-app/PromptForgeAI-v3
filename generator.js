@@ -90,3 +90,14 @@ Generate an outstanding professional result.`;
     saveHistory(prompt);
 
 }
+function updateDetectResult(result){
+
+    document.getElementById("detectCategory").textContent=result.category;
+
+    document.getElementById("detectStyle").textContent=result.style;
+
+    document.getElementById("detectColor").textContent=result.color;
+
+    document.getElementById("detectAudience").textContent=result.audience;
+
+}
