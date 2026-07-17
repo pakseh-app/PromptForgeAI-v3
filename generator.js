@@ -58,6 +58,8 @@ function generateProfessionalPrompt() {
 
 function buildProfessionalPrompt(data) {
 
+   const compose = composeIdea(data.idea);
+   
     const template =
         PromptTemplates[data.detect.industry] ||
         PromptTemplates.General;
@@ -84,6 +86,29 @@ ${data.idea}
 
 ==================================================
 
+AI ANALYSIS
+
+Main Object
+
+${compose.object}
+
+Headline
+
+${compose.headline}
+
+Call To Action
+
+${compose.cta}
+
+Price
+
+${compose.price}
+
+==================================================
+
+CATEGORY
+
+${data.category}
 CATEGORY
 
 ${data.category}
