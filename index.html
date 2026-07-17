@@ -115,3 +115,225 @@ dengan menjelaskan ide desainmu.
 <main class="container">
 
 <div class="left-panel">
+<!-- ===================== -->
+<!-- INPUT CARD -->
+<!-- ===================== -->
+
+<section class="card">
+
+<h2>💬 Apa yang ingin Anda desain?</h2>
+
+<textarea
+id="idea"
+placeholder="Contoh:
+
+Poster promosi bakso pedas modern warna merah hitam untuk media sosial dengan gaya premium dan realistis."></textarea>
+
+<div class="grid-2">
+
+<div class="form-group">
+
+<label>Kategori</label>
+
+<select id="category">
+
+<option>Auto Detect</option>
+<option>Poster</option>
+<option>Banner</option>
+<option>Spanduk</option>
+<option>Flyer</option>
+<option>Thumbnail</option>
+<option>Logo</option>
+<option>Undangan</option>
+<option>Kemasan</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Style</label>
+
+<select id="style">
+
+<option>Auto Detect</option>
+<option>Modern</option>
+<option>Luxury</option>
+<option>Minimal</option>
+<option>Futuristic</option>
+<option>3D Cartoon</option>
+<option>Photorealistic</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Ukuran</label>
+
+<select id="size">
+
+<option>Auto Detect</option>
+<option>A4</option>
+<option>A3</option>
+<option>1080x1350</option>
+<option>1080x1920</option>
+<option>Banner</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>AI Target</label>
+
+<select id="ai">
+
+<option>ChatGPT</option>
+<option>Gemini</option>
+<option>Claude</option>
+<option>Leonardo AI</option>
+<option>Midjourney</option>
+<option>Ideogram</option>
+<option>Flux</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button id="generate" class="generate-btn">
+
+✨ Generate Professional Prompt
+
+</button>
+
+</section>
+
+<!-- ===================== -->
+<!-- AUTO DETECT -->
+<!-- ===================== -->
+
+<section class="card">
+
+<h2>🧠 Smart Detect</h2>
+
+<div class="detect-grid">
+
+<div class="detect-box">
+
+<span>Kategori</span>
+
+<strong id="detectCategory">-</strong>
+
+</div>
+
+<div class="detect-box">
+
+<span>Style</span>
+
+<strong id="detectStyle">-</strong>
+
+</div>
+
+<div class="detect-box">
+
+<span>Warna</span>
+
+<strong id="detectColor">-</strong>
+
+</div>
+
+<div class="detect-box">
+
+<span>Target</span>
+
+<strong id="detectAudience">-</strong>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================== -->
+<!-- QUALITY -->
+<!-- ===================== -->
+
+<section class="card">
+
+<h2>⭐ Prompt Quality</h2>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+id="qualityBar">
+
+</div>
+
+</div>
+
+<h3 id="qualityText">
+
+0%
+
+</h3>
+
+<p>
+
+Semakin lengkap deskripsi Anda,
+semakin profesional prompt yang dihasilkan.
+
+</p>
+
+</section>
+
+</div>
+
+<!-- ===================== -->
+<!-- RIGHT PANEL -->
+<!-- ===================== -->
+
+<div class="right-panel">
+
+<section class="card output-card">
+
+<div class="output-header">
+
+<h2>📄 Professional Prompt</h2>
+
+<span class="status">
+
+Ready
+
+</span>
+
+</div>
+
+<textarea
+id="output"
+readonly
+placeholder="Prompt profesional akan muncul di sini..."></textarea>
+
+<div class="button-group">
+
+<button id="copy">
+
+📋 Copy
+
+</button>
+
+<button id="download">
+
+⬇ Download TXT
+
+</button>
+
+</div>
+
+</section>
