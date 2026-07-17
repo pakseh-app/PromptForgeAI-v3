@@ -1,12 +1,11 @@
 /* =====================================================
-   PROMPTFORGE AI v3
+   PROMPTFORGE AI v3.5
    DETECTOR.JS
-   Smart AI Detector
 ===================================================== */
 
 function smartDetect(text){
 
-    text = text.toLowerCase();
+    text=text.toLowerCase();
 
     return{
 
@@ -16,122 +15,133 @@ function smartDetect(text){
 
         color:detectColor(text),
 
-        audience:detectAudience(text)
+        audience:detectAudience(text),
+
+        industry:detectIndustry(text)
 
     };
 
 }
 
-/* ===========================
-   CATEGORY
-=========================== */
+/* =========================
+CATEGORY
+========================= */
 
 function detectCategory(text){
 
-    for(const key in promptDB.categories){
+    if(text.includes("poster")) return "Poster";
 
-        const item = promptDB.categories[key];
+    if(text.includes("banner")) return "Banner";
 
-        for(const word of item.keywords){
+    if(text.includes("spanduk")) return "Spanduk";
 
-            if(text.includes(word)){
+    if(text.includes("flyer")) return "Flyer";
 
-                return item.name;
+    if(text.includes("thumbnail")) return "Thumbnail";
 
-            }
+    if(text.includes("logo")) return "Logo";
 
-        }
+    if(text.includes("undangan")) return "Invitation";
 
-    }
+    if(text.includes("kemasan")) return "Packaging";
 
-    return "Auto Detect";
+    return "Poster";
 
 }
 
-/* ===========================
-   STYLE
-=========================== */
+/* =========================
+STYLE
+========================= */
 
 function detectStyle(text){
 
-    for(const key in promptDB.styles){
+    if(text.includes("luxury")) return "Luxury";
 
-        const words = promptDB.styles[key];
+    if(text.includes("mewah")) return "Luxury";
 
-        for(const word of words){
+    if(text.includes("minimal")) return "Minimal";
 
-            if(text.includes(word)){
+    if(text.includes("futur")) return "Futuristic";
 
-                return capitalize(key);
+    if(text.includes("3d")) return "3D Cartoon";
 
-            }
+    if(text.includes("kartun")) return "3D Cartoon";
 
-        }
+    if(text.includes("real")) return "Photorealistic";
 
-    }
-
-    return "Auto Detect";
+    return "Modern";
 
 }
 
-/* ===========================
-   COLOR
-=========================== */
+/* =========================
+COLOR
+========================= */
 
 function detectColor(text){
 
-    for(const key in promptDB.colors){
+    if(text.includes("merah")) return "Merah";
 
-        const words = promptDB.colors[key];
+    if(text.includes("biru")) return "Biru";
 
-        for(const word of words){
+    if(text.includes("hijau")) return "Hijau";
 
-            if(text.includes(word)){
+    if(text.includes("kuning")) return "Kuning";
 
-                return capitalize(key);
+    if(text.includes("hitam")) return "Hitam";
 
-            }
+    if(text.includes("putih")) return "Putih";
 
-        }
+    if(text.includes("ungu")) return "Ungu";
 
-    }
-
-    return "-";
+    return "Auto";
 
 }
 
-/* ===========================
-   AUDIENCE
-=========================== */
+/* =========================
+AUDIENCE
+========================= */
 
 function detectAudience(text){
 
-    for(const key in promptDB.audience){
+    if(text.includes("anak")) return "Anak";
 
-        const words = promptDB.audience[key];
+    if(text.includes("remaja")) return "Remaja";
 
-        for(const word of words){
+    if(text.includes("dewasa")) return "Dewasa";
 
-            if(text.includes(word)){
+    if(text.includes("keluarga")) return "Keluarga";
 
-                return capitalize(key);
-
-            }
-
-        }
-
-    }
-
-    return "-";
+    return "Umum";
 
 }
 
-/* ===========================
-   HELPER
-=========================== */
+/* =========================
+INDUSTRY
+========================= */
 
-function capitalize(str){
+function detectIndustry(text){
 
-    return str.charAt(0).toUpperCase()+str.slice(1);
+    if(
+        text.includes("bakso")||
+        text.includes("mie")||
+        text.includes("ayam")||
+        text.includes("kopi")||
+        text.includes("cafe")||
+        text.includes("kuliner")
+    ) return "food";
+
+    if(
+        text.includes("nikah")||
+        text.includes("akad")||
+        text.includes("resepsi")
+    ) return "wedding";
+
+    if(
+        text.includes("ai")||
+        text.includes("software")||
+        text.includes("website")
+    ) return "technology";
+
+    return "corporate";
 
 }
