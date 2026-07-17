@@ -1,1 +1,231 @@
+/* =====================================================
+   PROMPTFORGE AI v3
+   STYLE.CSS
+   PART 1
+===================================================== */
 
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #312e81
+    );
+
+    color:#ffffff;
+
+    min-height:100vh;
+
+    line-height:1.6;
+
+}
+
+
+/* ===========================
+   CONTAINER
+=========================== */
+
+.container{
+
+    width:min(1400px,95%);
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    420px
+    1fr;
+
+    gap:30px;
+
+    padding:40px 0;
+
+}
+
+.left-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+.right-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+
+/* ===========================
+   CARD
+=========================== */
+
+.card{
+
+    background:
+    rgba(255,255,255,.08);
+
+    backdrop-filter:
+    blur(18px);
+
+    border:
+
+    1px solid
+    rgba(255,255,255,.12);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    box-shadow:
+
+    0 15px 45px
+    rgba(0,0,0,.25);
+
+    transition:.35s;
+
+}
+
+.card:hover{
+
+    transform:
+    translateY(-3px);
+
+}
+
+
+/* ===========================
+   TITLE
+=========================== */
+
+.card h2{
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+
+/* ===========================
+   TEXTAREA
+=========================== */
+
+textarea{
+
+    width:100%;
+
+    min-height:180px;
+
+    resize:vertical;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:16px;
+
+    padding:18px;
+
+    background:
+
+    rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:15px;
+
+    margin-top:10px;
+
+}
+
+textarea::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+
+/* ===========================
+   FORM
+=========================== */
+
+.grid-2{
+
+    display:grid;
+
+    grid-template-columns:
+    1fr
+    1fr;
+
+    gap:16px;
+
+    margin-top:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group label{
+
+    margin-bottom:8px;
+
+    font-size:14px;
+
+    color:#cbd5e1;
+
+}
+
+select{
+
+    padding:14px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:14px;
+
+    background:
+
+    rgba(255,255,255,.08);
+
+    color:white;
+
+    font-size:14px;
+
+}
