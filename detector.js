@@ -1,5 +1,5 @@
 /* =====================================================
-   PROMPTFORGE AI v3.5
+   PROMPTFORGE AI v4
    DETECTOR.JS
 ===================================================== */
 
@@ -17,131 +17,223 @@ function smartDetect(text){
 
         audience:detectAudience(text),
 
-        industry:detectIndustry(text)
+        industry:detectIndustry(text),
+
+        platform:detectPlatform(text),
+
+        mood:detectMood(text),
+
+        purpose:detectPurpose(text)
 
     };
 
 }
 
-/* =========================
+/* ===========================
 CATEGORY
-========================= */
+=========================== */
 
 function detectCategory(text){
 
-    if(text.includes("poster")) return "Poster";
+    if(/poster|pamflet/.test(text)) return "Poster";
 
-    if(text.includes("banner")) return "Banner";
+    if(/banner|xbanner|roll banner/.test(text)) return "Banner";
 
-    if(text.includes("spanduk")) return "Spanduk";
+    if(/spanduk/.test(text)) return "Spanduk";
 
-    if(text.includes("flyer")) return "Flyer";
+    if(/flyer/.test(text)) return "Flyer";
 
-    if(text.includes("thumbnail")) return "Thumbnail";
+    if(/thumbnail|youtube|yt/.test(text)) return "Thumbnail";
 
-    if(text.includes("logo")) return "Logo";
+    if(/logo|branding/.test(text)) return "Logo";
 
-    if(text.includes("undangan")) return "Invitation";
+    if(/undangan|akad|resepsi/.test(text)) return "Invitation";
 
-    if(text.includes("kemasan")) return "Packaging";
+    if(/kemasan|packaging|label/.test(text)) return "Packaging";
 
     return "Poster";
 
 }
 
-/* =========================
+/* ===========================
 STYLE
-========================= */
+=========================== */
 
 function detectStyle(text){
 
-    if(text.includes("luxury")) return "Luxury";
+    if(/luxury|mewah|gold/.test(text)) return "Luxury";
 
-    if(text.includes("mewah")) return "Luxury";
+    if(/minimal/.test(text)) return "Minimal";
 
-    if(text.includes("minimal")) return "Minimal";
+    if(/future|cyber|futuristik/.test(text)) return "Futuristic";
 
-    if(text.includes("futur")) return "Futuristic";
+    if(/kartun|pixar|3d/.test(text)) return "3D Cartoon";
 
-    if(text.includes("3d")) return "3D Cartoon";
-
-    if(text.includes("kartun")) return "3D Cartoon";
-
-    if(text.includes("real")) return "Photorealistic";
+    if(/real|realistis|photorealistic/.test(text)) return "Photorealistic";
 
     return "Modern";
 
 }
 
-/* =========================
+/* ===========================
 COLOR
-========================= */
+=========================== */
 
 function detectColor(text){
 
-    if(text.includes("merah")) return "Merah";
+    const colors=[
+        "Merah",
+        "Biru",
+        "Hijau",
+        "Kuning",
+        "Hitam",
+        "Putih",
+        "Orange",
+        "Ungu",
+        "Pink",
+        "Emas",
+        "Silver",
+        "Coklat"
+    ];
 
-    if(text.includes("biru")) return "Biru";
+    for(const color of colors){
 
-    if(text.includes("hijau")) return "Hijau";
+        if(text.includes(color.toLowerCase()))
 
-    if(text.includes("kuning")) return "Kuning";
+            return color;
 
-    if(text.includes("hitam")) return "Hitam";
-
-    if(text.includes("putih")) return "Putih";
-
-    if(text.includes("ungu")) return "Ungu";
+    }
 
     return "Auto";
 
 }
 
-/* =========================
+/* ===========================
 AUDIENCE
-========================= */
+=========================== */
 
 function detectAudience(text){
 
-    if(text.includes("anak")) return "Anak";
+    if(/anak/.test(text)) return "Anak";
 
-    if(text.includes("remaja")) return "Remaja";
+    if(/remaja/.test(text)) return "Remaja";
 
-    if(text.includes("dewasa")) return "Dewasa";
+    if(/dewasa/.test(text)) return "Dewasa";
 
-    if(text.includes("keluarga")) return "Keluarga";
+    if(/keluarga/.test(text)) return "Keluarga";
 
     return "Umum";
 
 }
 
-/* =========================
+/* ===========================
 INDUSTRY
-========================= */
+=========================== */
 
 function detectIndustry(text){
 
-    if(
-        text.includes("bakso")||
-        text.includes("mie")||
-        text.includes("ayam")||
-        text.includes("kopi")||
-        text.includes("cafe")||
-        text.includes("kuliner")
-    ) return "food";
+    if(/bakso|mie|ayam|kopi|cafe|kuliner|makanan|minuman/.test(text))
 
-    if(
-        text.includes("nikah")||
-        text.includes("akad")||
-        text.includes("resepsi")
-    ) return "wedding";
+        return "Food";
 
-    if(
-        text.includes("ai")||
-        text.includes("software")||
-        text.includes("website")
-    ) return "technology";
+    if(/nikah|akad|resepsi|pengantin/.test(text))
 
-    return "corporate";
+        return "Wedding";
+
+    if(/ai|software|website|startup|teknologi/.test(text))
+
+        return "Technology";
+
+    if(/sekolah|sd|smp|sma|kampus/.test(text))
+
+        return "Education";
+
+    return "General";
+
+}
+
+/* ===========================
+PLATFORM
+=========================== */
+
+function detectPlatform(text){
+
+    if(/instagram|ig|feed/.test(text))
+
+        return "Instagram Feed";
+
+    if(/story/.test(text))
+
+        return "Instagram Story";
+
+    if(/tiktok/.test(text))
+
+        return "TikTok";
+
+    if(/youtube/.test(text))
+
+        return "YouTube";
+
+    if(/banner|spanduk/.test(text))
+
+        return "Printing";
+
+    return "Universal";
+
+}
+
+/* ===========================
+MOOD
+=========================== */
+
+function detectMood(text){
+
+    if(/luxury|premium|mewah/.test(text))
+
+        return "Luxury";
+
+    if(/ceria|happy/.test(text))
+
+        return "Playful";
+
+    if(/elegan/.test(text))
+
+        return "Elegant";
+
+    if(/minimal/.test(text))
+
+        return "Minimal";
+
+    if(/futur/.test(text))
+
+        return "Futuristic";
+
+    return "Professional";
+
+}
+
+/* ===========================
+PURPOSE
+=========================== */
+
+function detectPurpose(text){
+
+    if(/promo|promosi|diskon/.test(text))
+
+        return "Promotion";
+
+    if(/branding|logo/.test(text))
+
+        return "Branding";
+
+    if(/event|seminar|pengajian/.test(text))
+
+        return "Event";
+
+    if(/edukasi|belajar/.test(text))
+
+        return "Education";
+
+    return "General";
 
 }
