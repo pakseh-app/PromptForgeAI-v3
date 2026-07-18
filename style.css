@@ -1517,6 +1517,58 @@ body.light .nav-link:hover{
 
 }
 
+/* ==========================================================
+   FORM SELECT PREMIUM
+========================================================== */
+
+select{
+
+    width:100%;
+
+    height:56px;
+
+    padding:0 18px;
+
+    background:#252c46;
+
+    color:#ffffff;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:14px;
+
+    outline:none;
+
+    font-size:15px;
+
+    transition:.25s;
+
+    cursor:pointer;
+
+}
+
+select:hover{
+
+    border-color:#6d5efc;
+
+}
+
+select:focus{
+
+    border-color:#7c6cff;
+
+    box-shadow:0 0 0 3px rgba(108,92,255,.25);
+
+}
+
+select option{
+
+    background:#252c46;
+
+    color:#ffffff;
+
+}
+
 /*===========================================================
 END OF FILE
 ===========================================================*/
