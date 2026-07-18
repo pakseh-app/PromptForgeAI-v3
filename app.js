@@ -1750,101 +1750,54 @@ function displayAIAnalysis(result){
 ===================================================== */
 
 
-function displayPromptResult(result){
-
+ffunction displayPromptResult(result){
 
 
     if(!result){
 
-
         return;
-
 
     }
 
 
 
-
-
-    // tampilkan analisis AI
-
-    displayAIAnalysis(
-
-        result
-
-    );
-
-
+    displayAIAnalysis(result);
 
 
 
     const output =
-document.getElementById(
-    "output"
-);
 
-
+        document.getElementById(
+            "output"
+        );
 
 
 
     if(!output){
 
-
-
         console.warn(
-
-            "Output container tidak ditemukan"
-
+            "Output textarea tidak ditemukan"
         );
-
-
 
         return;
 
-
     }
-
-
 
 
 
     const prompt =
 
         extractPrompt(
-
             result
-
         );
 
 
 
-
-
-    const prompt =
-
-    extractPrompt(
-
-        result
-
-    );
-
-
-output.value = prompt;
-
-
-
-
-
-    initCopyResult();
+    output.value = prompt;
 
 
 
 }
-
-
-
-
-
 /* =====================================================
    EXTRACT PROMPT DATA
 ===================================================== */
