@@ -929,20 +929,15 @@ function optimizePrompt(prompt){
 
 function renderOutput(prompt){
 
-    const output=
+    const output=document.getElementById("output");
 
-    document.getElementById("output");
+    if(output){
 
-    if(!output){
-
-        return;
+        output.value=prompt;
 
     }
 
-    output.value=prompt;
-
 }
-
 
 
 /* ==========================================================
