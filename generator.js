@@ -1079,9 +1079,7 @@ document.addEventListener(
 
 window.PromptForgeEngine={
 
-    version:
-
-    PromptForgeEngine.version,
+    version:"4.1.0",
 
     generate:
 
