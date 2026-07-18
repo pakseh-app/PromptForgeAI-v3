@@ -84,7 +84,10 @@ function bootPromptForge(){
 
 
     initHeroButtons();
+   
 
+   initGenerateButton();
+   
 
     initializeAIEngine();
 
