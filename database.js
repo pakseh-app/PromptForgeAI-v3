@@ -1,347 +1,162 @@
 /* =====================================================
-   PROMPTFORGE AI v3.5
+   PROMPTFORGE AI v4
    DATABASE.JS
 ===================================================== */
 
-const promptDB = {
+const PromptForgeDB = [
 
-    version: "3.5",
-
-    // =========================================
-    // CATEGORY
-    // =========================================
-
-    categories: {
-
-        poster: {
-            name: "Poster",
-            goal: "Professional promotional poster",
-            ratio: "70:99",
-            dpi: "300 DPI",
-            output: "Print Ready"
-        },
-
-        banner: {
-            name: "Banner",
-            goal: "Advertising Banner",
-            ratio: "16:9",
-            dpi: "300 DPI",
-            output: "High Resolution"
-        },
-
-        flyer: {
-            name: "Flyer",
-            goal: "Marketing Flyer",
-            ratio: "A5",
-            dpi: "300 DPI",
-            output: "Print Ready"
-        },
-
-        thumbnail: {
-            name: "Thumbnail",
-            goal: "High CTR Thumbnail",
-            ratio: "16:9",
-            dpi: "72 DPI",
-            output: "Digital"
-        },
-
-        logo: {
-            name: "Logo",
-            goal: "Brand Identity",
-            ratio: "1:1",
-            dpi: "Vector",
-            output: "SVG / AI"
-        },
-
-        invitation: {
-            name: "Invitation",
-            goal: "Premium Invitation",
-            ratio: "A5",
-            dpi: "300 DPI",
-            output: "Print Ready"
-        },
-
-        packaging: {
-            name: "Packaging",
-            goal: "Product Packaging",
-            ratio: "Custom",
-            dpi: "300 DPI",
-            output: "Packaging Ready"
+    {
+        id:1,
+        category:"Poster",
+        title:"Modern Event Poster",
+        style:"Modern",
+        size:"A4",
+        ai:"ChatGPT",
+        description:"Poster acara modern dengan tipografi tegas dan visual premium.",
+        template:{
+            objective:"Create a premium modern event poster.",
+            color:"Blue, Purple, White",
+            lighting:"Soft Studio Lighting",
+            camera:"Front View",
+            negative:"low quality, blurry, watermark"
         }
+    },
+
+    {
+        id:2,
+        category:"Poster",
+        title:"Luxury Product Poster",
+        style:"Luxury",
+        size:"1080x1350",
+        ai:"ChatGPT",
+        description:"Poster promosi produk premium bergaya mewah.",
+        template:{
+            objective:"Create a luxury advertising poster.",
+            color:"Black, Gold",
+            lighting:"Premium Soft Light",
+            camera:"Product Shot",
+            negative:"low quality, noisy"
+        }
+    },
+
+    {
+        id:3,
+        category:"Banner",
+        title:"Pengajian Banner",
+        style:"Modern",
+        size:"Banner",
+        ai:"ChatGPT",
+        description:"Banner pengajian modern untuk cetak ukuran besar.",
+        template:{
+            objective:"Professional Islamic event banner.",
+            color:"Green, White, Gold",
+            lighting:"Natural",
+            camera:"Front View",
+            negative:"low resolution"
+        }
+    },
+
+    {
+        id:4,
+        category:"Thumbnail",
+        title:"YouTube Thumbnail",
+        style:"Modern",
+        size:"1280x720",
+        ai:"ChatGPT",
+        description:"Thumbnail YouTube dengan CTR tinggi.",
+        template:{
+            objective:"High CTR YouTube Thumbnail.",
+            color:"Yellow, Red, Black",
+            lighting:"Dramatic",
+            camera:"Close Up",
+            negative:"blur, watermark"
+        }
+    },
+
+    {
+        id:5,
+        category:"Logo",
+        title:"Luxury Logo",
+        style:"Luxury",
+        size:"Auto Detect",
+        ai:"ChatGPT",
+        description:"Logo elegan untuk brand premium.",
+        template:{
+            objective:"Luxury logo branding.",
+            color:"Black, Gold",
+            lighting:"Studio",
+            camera:"Centered",
+            negative:"pixelated"
+        }
+    },
+
+    {
+        id:6,
+        category:"Flyer",
+        title:"Food Flyer",
+        style:"Modern",
+        size:"A4",
+        ai:"ChatGPT",
+        description:"Flyer promosi makanan cepat saji.",
+        template:{
+            objective:"Modern food flyer.",
+            color:"Orange, Red",
+            lighting:"Food Photography",
+            camera:"Top View",
+            negative:"dark image"
+        }
+    }
+
+];
+
+
+/* =====================================================
+   DATABASE API
+===================================================== */
+
+const Database = {
+
+    getAll(){
+
+        return PromptForgeDB;
 
     },
 
-    // =========================================
-    // STYLE
-    // =========================================
+    getById(id){
 
-    styles: {
-
-        modern: {
-            title: "Modern",
-            description:
-                "clean modern design, premium layout, bold typography"
-        },
-
-        luxury: {
-            title: "Luxury",
-            description:
-                "gold accents, elegant typography, premium appearance"
-        },
-
-        minimal: {
-            title: "Minimal",
-            description:
-                "minimalist composition, white space, clean layout"
-        },
-
-        futuristic: {
-            title: "Futuristic",
-            description:
-                "cyberpunk interface, hologram effect, neon lighting"
-        },
-
-        cartoon3d: {
-            title: "3D Cartoon",
-            description:
-                "Pixar quality, colorful, cute, soft lighting"
-        },
-
-        realistic: {
-            title: "Photorealistic",
-            description:
-                "ultra realistic, DSLR photography, cinematic"
-        }
+        return PromptForgeDB.find(item=>item.id==id);
 
     },
 
-    // =========================================
-    // INDUSTRY
-    // =========================================
+    getByCategory(category){
 
-    industries: {
+        if(category==="all"){
 
-        food: {
-
-            title: "Food & Beverage",
-
-            palette: [
-                "Red",
-                "Orange",
-                "Black"
-            ],
-
-            typography:
-                "Bold Sans Serif",
-
-            layout:
-                "Hero Product Center",
-
-            lighting:
-                "Warm cinematic food lighting",
-
-            composition:
-                "Close-up food photography with steam effect"
-
-        },
-
-        wedding: {
-
-            title: "Wedding",
-
-            palette: [
-                "White",
-                "Gold",
-                "Cream"
-            ],
-
-            typography:
-                "Elegant Serif",
-
-            layout:
-                "Centered Elegant",
-
-            lighting:
-                "Soft romantic lighting",
-
-            composition:
-                "Luxury floral composition"
-
-        },
-
-        technology: {
-
-            title: "Technology",
-
-            palette: [
-                "Blue",
-                "Purple",
-                "Black"
-            ],
-
-            typography:
-                "Modern Sans Serif",
-
-            layout:
-                "Grid Layout",
-
-            lighting:
-                "Neon lighting",
-
-            composition:
-                "Futuristic interface"
-
-        },
-
-        education: {
-
-            title: "Education",
-
-            palette: [
-                "Blue",
-                "White",
-                "Yellow"
-            ],
-
-            typography:
-                "Friendly Sans Serif",
-
-            layout:
-                "Information Layout",
-
-            lighting:
-                "Natural lighting",
-
-            composition:
-                "Educational illustration"
-
-        },
-
-        corporate: {
-
-            title: "Corporate",
-
-            palette: [
-                "Navy",
-                "White",
-                "Gray"
-            ],
-
-            typography:
-                "Professional Sans Serif",
-
-            layout:
-                "Corporate Grid",
-
-            lighting:
-                "Studio lighting",
-
-            composition:
-                "Professional business style"
+            return PromptForgeDB;
 
         }
 
+        return PromptForgeDB.filter(item=>item.category===category);
+
     },
 
-    // =========================================
-    // CAMERA
-    // =========================================
+    search(keyword){
 
-    camera: [
+        keyword=keyword.toLowerCase();
 
-        "cinematic lighting",
-        "HDR",
-        "depth of field",
-        "professional composition",
-        "ultra realistic",
-        "8K",
-        "sharp focus",
-        "DSLR quality",
-        "soft shadow",
-        "global illumination"
+        return PromptForgeDB.filter(item=>
 
-    ],
+            item.title.toLowerCase().includes(keyword)
 
-    // =========================================
-    // PRINT
-    // =========================================
+            ||
 
-    printing: [
+            item.category.toLowerCase().includes(keyword)
 
-        "300 DPI",
-        "CMYK color",
-        "Print Ready",
-        "Ultra High Resolution"
+            ||
 
-    ],
+            item.description.toLowerCase().includes(keyword)
 
-    // =========================================
-    // AI OPTIMIZATION
-    // =========================================
-
-    aiOptimization: [
-
-        "Highly detailed",
-
-        "Professional composition",
-
-        "Award winning design",
-
-        "Trending design",
-
-        "Best quality",
-
-        "Masterpiece"
-
-    ],
-
-    // =========================================
-    // NEGATIVE PROMPT
-    // =========================================
-
-    negativePrompt: [
-
-        "low quality",
-
-        "low resolution",
-
-        "blurry",
-
-        "noise",
-
-        "cropped",
-
-        "duplicate",
-
-        "bad anatomy",
-
-        "watermark",
-
-        "logo",
-
-        "text error",
-
-        "oversaturated",
-
-        "distorted",
-
-        "jpeg artifacts"
-
-    ],
-
-    // =========================================
-    // QUALITY
-    // =========================================
-
-    qualityRules: {
-
-        minLength: 30,
-
-        medium: 80,
-
-        good: 150,
-
-        excellent: 250
+        );
 
     }
 
