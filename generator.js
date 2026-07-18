@@ -114,25 +114,15 @@ function collectInput(){
 
     return{
 
-        idea:
+        idea:getValue("idea"),
 
-        getValue("idea"),
+        category:getValue("category"),
 
-        category:
+        style:getValue("style"),
 
-        getValue("category"),
+        ai:getValue("ai"),
 
-        style:
-
-        getValue("style"),
-
-        ai:
-
-        getValue("targetAI"),
-
-        size:
-
-        getValue("canvasSize")
+        size:getValue("size")
 
     };
 
