@@ -302,6 +302,8 @@ function resolveValue(
 
 function composePrompt(
 
+   
+
     input,
 
     detect,
@@ -309,6 +311,8 @@ function composePrompt(
     template
 
 ){
+
+   console.log("COMPOSE PROMPT BARU BERJALAN");
 
 
 
