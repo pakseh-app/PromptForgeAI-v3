@@ -1779,12 +1779,9 @@ function displayPromptResult(result){
 
 
     const output =
-
-        document.getElementById(
-
-            "result"
-
-        );
+document.getElementById(
+    "output"
+);
 
 
 
@@ -1823,62 +1820,16 @@ function displayPromptResult(result){
 
 
 
-    output.innerHTML =
+    const prompt =
+
+    extractPrompt(
+
+        result
+
+    );
 
 
-
-    `
-
-    <div class="prompt-result">
-
-
-        <div class="result-header">
-
-
-            <h3>
-
-            ✨ Generated Prompt
-
-            </h3>
-
-
-        </div>
-
-
-
-
-        <div class="prompt-box">
-
-
-            <pre>${prompt}</pre>
-
-
-        </div>
-
-
-
-
-        <div class="result-action">
-
-
-            <button
-
-            id="copyPrompt"
-
-            class="btn-copy">
-
-                📋 Copy Prompt
-
-            </button>
-
-
-        </div>
-
-
-
-    </div>
-
-    `;
+output.value = prompt;
 
 
 
