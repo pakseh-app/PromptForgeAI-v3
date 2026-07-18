@@ -71,18 +71,22 @@ document.addEventListener(
 function bootPromptForge(){
 
 
-
     console.log(
-
         "%cStarting PromptForge AI v5...",
-
         "color:#06b6d4;font-weight:bold"
-
     );
 
 
-
     initComposerCore();
+
+
+    initNavigation();
+
+
+    initHeroButtons();
+
+
+    initializeAIEngine();
 
 
 
@@ -100,7 +104,6 @@ function bootPromptForge(){
 
 
 }
-
 
 
 
