@@ -1749,8 +1749,7 @@ function displayAIAnalysis(result){
    DISPLAY RESULT
 ===================================================== */
 
-
-ffunction displayPromptResult(result){
+function displayPromptResult(result){
 
 
     if(!result){
@@ -1758,7 +1757,6 @@ ffunction displayPromptResult(result){
         return;
 
     }
-
 
 
     displayAIAnalysis(result);
