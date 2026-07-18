@@ -33,15 +33,31 @@ function calculatePromptQuality(prompt){
 
     if(!prompt){
 
-        updateQualityUI(0,"Empty Prompt");
+        updateQualityUI(
+
+            0,
+
+            "Empty Prompt"
+
+        );
 
         return;
 
     }
 
-    const report=
+    let report =
 
     analyzePrompt(prompt);
+
+    report =
+
+    finalizeQualityReport(
+
+        report,
+
+        prompt
+
+    );
 
     updateQualityUI(
 
@@ -51,7 +67,11 @@ function calculatePromptQuality(prompt){
 
     );
 
-    renderChecklist(report);
+    renderChecklist(
+
+        report
+
+    );
 
 }
 
