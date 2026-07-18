@@ -1,294 +1,1144 @@
-/* =====================================================
-   PROMPTFORGE AI v4
-   GENERATOR.JS
-===================================================== */
+/* ==========================================================
+   PROMPTFORGE AI
+   generator.js
+   Version : 4.1.0
+   ========================================================== */
 
-function generateProfessionalPrompt() {
 
-    const idea = document.getElementById("idea").value.trim();
+/* ==========================================================
+   CONFIG
+========================================================== */
 
-    if (idea === "") {
-        alert("Silakan masukkan ide desain terlebih dahulu.");
+const PromptForgeEngine = {
+
+    version : "4.1.0",
+
+    author : "Pakseh",
+
+    build : "Professional Prompt Engine"
+
+};
+
+
+
+/* ==========================================================
+   MAIN ENGINE
+========================================================== */
+
+function generateProfessionalPrompt(){
+
+    const input = collectInput();
+
+    if(!validateInput(input)){
+
         return;
+
     }
 
-    const detect = smartDetect(idea);
+    const detected = detectInformation(input);
 
-    updateDetectResult(detect);
+    const template = getSelectedTemplate();
 
-    const category =
-        document.getElementById("category").value === "Auto Detect"
-            ? detect.category
-            : document.getElementById("category").value;
+    const composed = composePrompt(
 
-    const style =
-        document.getElementById("style").value === "Auto Detect"
-            ? detect.style
-            : document.getElementById("style").value;
+        input,
+        detected,
+        template
 
-    const size = document.getElementById("size").value;
+    );
 
-    const ai = document.getElementById("ai").value;
+    const optimized = optimizePrompt(composed);
 
-    const prompt = buildProfessionalPrompt({
+    renderOutput(optimized);
 
-        idea,
-        detect,
-        category,
-        style,
-        size,
-        ai
+    savePromptHistory(
 
-    });
+        optimized
 
-    document.getElementById("output").value = prompt;
+    );
 
-    updateQuality(prompt);
+    updatePromptQuality(
 
-    if (typeof saveHistory === "function") {
-        saveHistory(prompt);
-    }
+        optimized
+
+    );
 
 }
 
 
-/* =====================================================
-   BUILD PROMPT
-===================================================== */
 
-function buildProfessionalPrompt(data) {
+/* ==========================================================
+   STEP 1
+   Collect Input
+========================================================== */
 
-   const compose = composeIdea(data.idea);
-   
-    const template =
-        PromptTemplates[data.detect.industry] ||
-        PromptTemplates.General;
+function collectInput(){
 
-    const negative =
-        promptDB.negativePrompt.join(", ");
+    return{
 
-    const camera =
-        promptDB.camera.join(", ");
+        idea:
 
-    const printing =
-        promptDB.printing.join(", ");
+        getValue("idea"),
 
-    const aiOptimization =
-        promptDB.aiOptimization.join(", ");
+        category:
 
-    return `# PROFESSIONAL AI DESIGN PROMPT
+        getValue("category"),
 
-==================================================
+        style:
 
-PROJECT
+        getValue("style"),
 
-${data.idea}
+        size:
 
-==================================================
+        getValue("size"),
 
-AI ANALYSIS
+        ai:
 
-Main Object
+        getValue("ai")
 
-${compose.object}
+    };
 
-Headline
+}
 
-${compose.headline}
 
-Call To Action
 
-${compose.cta}
+/* ==========================================================
+   STEP 2
+   Validation
+========================================================== */
 
-Price
+function validateInput(data){
 
-${compose.price}
+    if(
 
-==================================================
+        !data.idea ||
 
-CATEGORY
+        data.idea.trim()===""
 
-${data.category}
-CATEGORY
+    ){
 
-${data.category}
+        alert(
 
-STYLE
+            "Silakan masukkan ide desain terlebih dahulu."
 
-${data.style}
+        );
 
-TARGET AI
+        return false;
 
-${data.ai}
+    }
 
-CANVAS SIZE
+    return true;
 
-${data.size}
+}
 
-==================================================
 
-OBJECTIVE
 
-${template.objective}
+/* ==========================================================
+   STEP 3
+   Smart Detection
+========================================================== */
 
-==================================================
+function detectInformation(data){
 
-COMPOSITION
+    let result={
 
-${template.composition}
+        category:data.category,
 
-==================================================
+        style:data.style,
 
-TYPOGRAPHY
+        color:"Auto",
 
-${template.typography}
+        audience:"General"
 
-==================================================
+    };
 
-LIGHTING
+    if(
 
-${template.lighting}
+        typeof detectPrompt==="function"
 
-==================================================
+    ){
 
-CAMERA
+        try{
 
-${template.camera}
+            const detect=
 
-==================================================
+            detectPrompt(
 
-VISUAL DIRECTION
+                data.idea
 
-• Strong visual hierarchy
+            );
 
-• Premium composition
+            if(detect){
 
-• Eye-catching focal point
+                result={
 
-• Modern layout
+                    ...result,
 
-• Professional typography
+                    ...detect
 
-• Balanced spacing
+                };
 
-• Rich visual storytelling
+            }
 
-• Commercial quality
+        }
 
-==================================================
+        catch(e){
 
-COLOR STRATEGY
+            console.warn(
 
-Primary Color
+                e
 
-${data.detect.color}
+            );
 
-Use premium color grading.
+        }
 
-High contrast.
+    }
 
-Balanced saturation.
+    return result;
 
-Professional harmony.
+}
 
-==================================================
 
-TARGET AUDIENCE
 
-${data.detect.audience}
+/* ==========================================================
+   STEP 4
+   Template
+========================================================== */
 
-==================================================
+function getSelectedTemplate(){
 
-INDUSTRY
+    if(
 
-${data.detect.industry}
+        typeof getCurrentTemplate==="function"
 
-==================================================
+    ){
 
-PLATFORM
+        return getCurrentTemplate();
 
-${data.detect.platform}
+    }
 
-==================================================
+    return null;
 
-MOOD
+}
 
-${data.detect.mood}
 
-==================================================
 
-PURPOSE
+/* ==========================================================
+   STEP 5
+   Compose Prompt
+========================================================== */
 
-${data.detect.purpose}
+function composePrompt(
 
-==================================================
+    input,
 
-CAMERA & LIGHTING
+    detect,
 
-${camera}
+    template
 
-==================================================
+){
 
-PRINT SPECIFICATION
+    let output=[];
 
-${printing}
+    output.push(
 
-==================================================
+`# PROFESSIONAL AI DESIGN PROMPT`
 
-AI OPTIMIZATION
+    );
 
-${aiOptimization}
+    output.push("");
 
-==================================================
 
-NEGATIVE PROMPT
 
-${negative}
+    output.push(
 
-==================================================
+"=================================================="
 
-OUTPUT REQUIREMENTS
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"PROJECT"
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+input.idea
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"=================================================="
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"CATEGORY"
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+detect.category
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"STYLE"
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+detect.style
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"TARGET AI"
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+input.ai
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+"CANVAS SIZE"
+
+    );
+
+
+
+    output.push("");
+
+
+
+    output.push(
+
+input.size
+
+    );
+
+
+
+    output.push("");
+
+
+
+    return{
+
+        lines:output,
+
+        detect,
+
+        input,
+
+        template
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   PART 2 BELOW
+========================================================== */
+
+/* ==========================================================
+   STEP 6
+   Add Template Information
+========================================================== */
+
+    output.push(
+"OBJECTIVE"
+    );
+
+    output.push("");
+
+    if(template){
+
+        output.push(
+template.template.objective
+        );
+
+    }else{
+
+        output.push(
+"Create a professional high quality design."
+        );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   COLOR PALETTE
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"COLOR PALETTE"
+    );
+
+    output.push("");
+
+    if(template){
+
+        output.push(
+template.template.color
+        );
+
+    }else{
+
+        output.push(
+detect.color
+        );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   TARGET AUDIENCE
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"TARGET AUDIENCE"
+    );
+
+    output.push("");
+
+    output.push(
+detect.audience
+    );
+
+    output.push("");
+
+
+
+/* ==========================================================
+   VISUAL STYLE
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"VISUAL STYLE"
+    );
+
+    output.push("");
+
+    output.push(
+`
+Ultra detailed,
+professional composition,
+premium quality,
+clean layout,
+high resolution,
+sharp focus,
+balanced composition,
+realistic lighting,
+commercial quality
+`
+    );
+
+    output.push("");
+
+
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"TYPOGRAPHY"
+    );
+
+    output.push("");
+
+    output.push(
+`
+Bold headline
+
+Modern Sans Serif
+
+Readable hierarchy
+
+Premium spacing
+
+Professional alignment
+`
+    );
+
+    output.push("");
+
+
+
+/* ==========================================================
+   LAYOUT
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"LAYOUT"
+    );
+
+    output.push("");
+
+    output.push(
+`
+Professional grid system
+
+Balanced white space
+
+Strong visual hierarchy
+
+Eye-catching focal point
+
+Premium composition
+`
+    );
+
+    output.push("");
+
+
+
+/* ==========================================================
+   LIGHTING
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"LIGHTING"
+    );
+
+    output.push("");
+
+    if(template){
+
+        output.push(
+template.template.lighting
+        );
+
+    }else{
+
+        output.push(
+"Professional Studio Lighting"
+        );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   CAMERA
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"CAMERA"
+    );
+
+    output.push("");
+
+    if(template){
+
+        output.push(
+template.template.camera
+        );
+
+    }else{
+
+        output.push(
+"Front View"
+        );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   PART 3 BELOW
+========================================================== */
+
+/* ==========================================================
+   STEP 7
+   NEGATIVE PROMPT
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"NEGATIVE PROMPT"
+    );
+
+    output.push("");
+
+    if(template){
+
+        output.push(
+template.template.negative
+        );
+
+    }else{
+
+        output.push(
+`
+Low quality
+
+Blurry
+
+Pixelated
+
+Noise
+
+Overexposed
+
+Underexposed
+
+Bad anatomy
+
+Bad composition
+
+Watermark
+
+Logo
+
+Signature
+
+Text artifacts
+
+Low resolution
+
+Duplicate objects
+
+Distorted perspective
+`
+        );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   OUTPUT FORMAT
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"OUTPUT FORMAT"
+    );
+
+    output.push("");
+
+    output.push(
+`
+Professional commercial quality
 
 Ultra HD
 
-8K Resolution
+8K Detail
 
-HDR
+Print Ready
 
-Professional Print Ready
+Photorealistic
 
-Commercial Quality
+High Dynamic Range
 
-Award Winning
+Sharp Focus
 
-Best Quality
+Premium Design
 
-Masterpiece
+Modern Composition
+`
+    );
 
-==================================================
+    output.push("");
 
-Generated by PromptForge AI v4
-`;
+
+
+/* ==========================================================
+   TARGET AI OPTIMIZATION
+========================================================== */
+
+    output.push(
+"=================================================="
+    );
+
+    output.push("");
+
+    output.push(
+"TARGET AI OPTIMIZATION"
+    );
+
+    output.push("");
+
+    switch(input.ai){
+
+        case "ChatGPT":
+
+            output.push(
+"Optimized for ChatGPT Image Generation"
+            );
+
+        break;
+
+        case "Gemini":
+
+            output.push(
+"Optimized for Google Gemini"
+            );
+
+        break;
+
+        case "Claude":
+
+            output.push(
+"Optimized for Claude AI"
+            );
+
+        break;
+
+        case "Leonardo AI":
+
+            output.push(
+"Optimized for Leonardo AI"
+            );
+
+        break;
+
+        case "Midjourney":
+
+            output.push(
+"Optimized for Midjourney"
+            );
+
+        break;
+
+        case "Ideogram":
+
+            output.push(
+"Optimized for Ideogram"
+            );
+
+        break;
+
+        case "Flux":
+
+            output.push(
+"Optimized for Flux"
+            );
+
+        break;
+
+        default:
+
+            output.push(
+"Universal AI Prompt"
+            );
+
+    }
+
+    output.push("");
+
+
+
+/* ==========================================================
+   FINAL BUILD
+========================================================== */
+
+    return output.join("\n");
 
 }
 
 
-/* =====================================================
-   UPDATE DETECT RESULT
-===================================================== */
 
-function updateDetectResult(result) {
+/* ==========================================================
+   STEP 8
+   OPTIMIZER
+========================================================== */
 
-    document.getElementById("detectCategory").textContent =
-        result.category;
+function optimizePrompt(prompt){
 
-    document.getElementById("detectStyle").textContent =
-        result.style;
+    return prompt
 
-    document.getElementById("detectColor").textContent =
-        result.color;
+    .replace(/\n{3,}/g,"\n\n")
 
-    document.getElementById("detectAudience").textContent =
-        result.audience;
+    .trim();
 
 }
+
+
+
+/* ==========================================================
+   STEP 9
+   OUTPUT
+========================================================== */
+
+function renderOutput(prompt){
+
+    const output=
+
+    document.getElementById("result");
+
+    if(output){
+
+        output.value=prompt;
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   STEP 10
+   HISTORY
+========================================================== */
+
+function savePromptHistory(prompt){
+
+    if(
+
+        typeof saveHistory==="function"
+
+    ){
+
+        saveHistory(prompt);
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   STEP 11
+   QUALITY
+========================================================== */
+
+function updatePromptQuality(prompt){
+
+    if(
+
+        typeof calculatePromptQuality==="function"
+
+    ){
+
+        calculatePromptQuality(
+
+            prompt
+
+        );
+
+    }
+
+}
+
+
+
+/* ==========================================================
+   PART 4 BELOW
+========================================================== */
+
+/* ==========================================================
+   STEP 12
+   HELPER FUNCTIONS
+========================================================== */
+
+function getValue(id){
+
+    const element=document.getElementById(id);
+
+    if(!element) return "";
+
+    return element.value.trim();
+
+}
+
+
+
+/* ==========================================================
+   COPY SUPPORT
+========================================================== */
+
+function copyGeneratedPrompt(){
+
+    const output=document.getElementById("result");
+
+    if(!output) return;
+
+    navigator.clipboard.writeText(output.value);
+
+}
+
+
+
+/* ==========================================================
+   DOWNLOAD SUPPORT
+========================================================== */
+
+function downloadGeneratedPrompt(){
+
+    const output=document.getElementById("result");
+
+    if(!output) return;
+
+    const blob=new Blob(
+
+        [output.value],
+
+        {
+
+            type:"text/plain"
+
+        }
+
+    );
+
+    const url=
+
+    URL.createObjectURL(blob);
+
+    const a=
+
+    document.createElement("a");
+
+    a.href=url;
+
+    a.download="PromptForge-Prompt.txt";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+
+/* ==========================================================
+   AUTO BIND BUTTON
+========================================================== */
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+    const copyBtn=
+
+    document.getElementById("copy");
+
+    if(copyBtn){
+
+        copyBtn.addEventListener(
+
+            "click",
+
+            copyGeneratedPrompt
+
+        );
+
+    }
+
+    const downloadBtn=
+
+    document.getElementById("download");
+
+    if(downloadBtn){
+
+        downloadBtn.addEventListener(
+
+            "click",
+
+            downloadGeneratedPrompt
+
+        );
+
+    }
+
+});
+
+
+
+/* ==========================================================
+   PUBLIC ENGINE
+========================================================== */
+
+window.PromptForgeEngine={
+
+    version:
+
+    PromptForgeEngine.version,
+
+    generate:
+
+    generateProfessionalPrompt,
+
+    collect:
+
+    collectInput,
+
+    compose:
+
+    composePrompt,
+
+    optimize:
+
+    optimizePrompt,
+
+    copy:
+
+    copyGeneratedPrompt,
+
+    download:
+
+    downloadGeneratedPrompt
+
+};
+
+
+
+/* ==========================================================
+   CONSOLE INFO
+========================================================== */
+
+console.log(
+
+"%cPromptForge AI Engine v4.1 Loaded",
+
+"color:#6366f1;font-weight:bold;font-size:14px;"
+
+);
+
+
+
+/* ==========================================================
+   END OF FILE
+========================================================== */
