@@ -1,162 +1,461 @@
-/* =====================================================
-   PROMPTFORGE AI v4
-   COMPOSER.JS
-===================================================== */
+/* ==========================================================
+   PROMPTFORGE AI
+   SMART PROMPT COMPOSER
+   File : composer.js
+   Version : 5.0.0
 
-let currentTemplate = null;
+   PART 1 / 6
+========================================================== */
+
+"use strict";
+
+/* ==========================================================
+   ENGINE INFO
+========================================================== */
+
+const PromptComposer = (function () {
+
+    const VERSION = "5.0.0";
 
 
-/* =====================================================
-   LOAD TEMPLATE
-===================================================== */
 
-function loadTemplate(template){
+    /* ==========================================================
+       DEFAULT STRATEGY
+    ========================================================== */
 
-    currentTemplate = template;
+    const DEFAULT_STRATEGY = {
 
-    // isi dropdown
+        category: "General Design",
 
-    setValue("category", template.category);
+        objective: "Creative Design",
 
-    setValue("style", template.style);
+        style: "Modern",
 
-    setValue("size", template.size);
+        mood: "Professional",
 
-    setValue("ai", template.ai);
+        canvas: "Auto",
 
-    // isi textarea ide
+        color: "Auto",
 
-    const idea = document.getElementById("idea");
+        audience: "General Audience",
 
-    if(idea){
+        typography: "Modern Sans Serif",
 
-        idea.value =
-`PROJECT
+        composition: "Balanced",
 
-${template.title}
+        lighting: "Soft Studio",
 
-CATEGORY
+        camera: "Eye Level",
 
-${template.category}
+        ai: "Universal",
 
-STYLE
+        confidence: 0,
 
-${template.style}
+        decorations: [],
 
-OBJECTIVE
+        effects: [],
 
-${template.template.objective}
+        materials: [],
 
-`;
+        keywords: [],
+
+        negative: []
+
+    };
+
+
+
+    /* ==========================================================
+       SAFE CLONE
+    ========================================================== */
+
+    function cloneStrategy() {
+
+        return {
+
+            ...DEFAULT_STRATEGY,
+
+            decorations: [...DEFAULT_STRATEGY.decorations],
+
+            effects: [...DEFAULT_STRATEGY.effects],
+
+            materials: [...DEFAULT_STRATEGY.materials],
+
+            keywords: [...DEFAULT_STRATEGY.keywords],
+
+            negative: [...DEFAULT_STRATEGY.negative]
+
+        };
 
     }
 
-}
 
 
-/* =====================================================
-   SET VALUE
-===================================================== */
+    /* ==========================================================
+       NORMALIZE VALUE
+    ========================================================== */
 
-function setValue(id,value){
+    function normalize(value) {
 
-    const element=document.getElementById(id);
+        if (value === undefined) return "";
 
-    if(!element) return;
+        if (value === null) return "";
 
-    for(let option of element.options){
+        return String(value).trim();
 
-        if(option.value===value ||
+    }
 
-           option.text===value){
 
-            element.value=option.value;
 
-            return;
+    /* ==========================================================
+       AUTO DETECT CHECK
+    ========================================================== */
+
+    function isAuto(value) {
+
+        value = normalize(value);
+
+        return (
+
+            value === "" ||
+
+            value === "Auto Detect"
+
+        );
+
+    }
+
+
+
+    /* ==========================================================
+       RESOLVE VALUE
+    ========================================================== */
+
+    function resolve(
+
+        userValue,
+
+        detectedValue,
+
+        defaultValue
+
+    ) {
+
+        if (isAuto(userValue)) {
+
+            if (
+
+                detectedValue !== undefined &&
+
+                detectedValue !== null &&
+
+                detectedValue !== ""
+
+            ) {
+
+                return detectedValue;
+
+            }
+
+            return defaultValue;
 
         }
 
-    }
-
-}
-
-
-/* =====================================================
-   GET CURRENT TEMPLATE
-===================================================== */
-
-function getCurrentTemplate(){
-
-    return currentTemplate;
-
-}
-
-
-/* =====================================================
-   CLEAR
-===================================================== */
-
-function clearComposer(){
-
-    currentTemplate=null;
-
-    const idea=document.getElementById("idea");
-
-    if(idea){
-
-        idea.value="";
+        return userValue;
 
     }
 
-}
 
 
-/* =====================================================
-   BUILD PROMPT
-===================================================== */
+    /* ==========================================================
+       CREATE BASE STRATEGY
+    ========================================================== */
 
-function buildPrompt(userIdea){
+    function createBaseStrategy(
 
-    if(!currentTemplate){
+        input,
 
-        return userIdea;
+        detect
+
+    ) {
+
+        const strategy = cloneStrategy();
+
+
+
+        strategy.category = resolve(
+
+            input.category,
+
+            detect.category,
+
+            DEFAULT_STRATEGY.category
+
+        );
+
+
+
+        strategy.style = resolve(
+
+            input.style,
+
+            detect.style,
+
+            DEFAULT_STRATEGY.style
+
+        );
+
+
+
+        strategy.canvas = resolve(
+
+            input.size,
+
+            detect.canvas,
+
+            DEFAULT_STRATEGY.canvas
+
+        );
+
+
+
+        strategy.color = resolve(
+
+            input.color,
+
+            detect.color,
+
+            DEFAULT_STRATEGY.color
+
+        );
+
+
+
+        strategy.audience =
+
+            detect.audience ||
+
+            DEFAULT_STRATEGY.audience;
+
+
+
+        strategy.ai =
+
+            input.ai ||
+
+            DEFAULT_STRATEGY.ai;
+
+
+
+        strategy.confidence =
+
+            detect.confidence ||
+
+            0;
+
+
+
+        strategy.idea =
+
+            normalize(input.idea);
+
+
+
+        return strategy;
 
     }
 
-    return `
 
-${userIdea}
 
---------------------------------------
+    /* ==========================================================
+       PLACEHOLDER ENGINE
+       (akan diisi PART berikutnya)
+    ========================================================== */
 
-CATEGORY
+    function analyzeIntent(
 
-${currentTemplate.category}
+        strategy,
 
-STYLE
+        input,
 
-${currentTemplate.style}
+        detect
 
-OBJECTIVE
+    ) {
 
-${currentTemplate.template.objective}
+        return strategy;
 
-COLOR
+    }
 
-${currentTemplate.template.color}
 
-LIGHTING
 
-${currentTemplate.template.lighting}
+    function analyzeObjective(
 
-CAMERA
+        strategy,
 
-${currentTemplate.template.camera}
+        input,
 
-NEGATIVE PROMPT
+        detect
 
-${currentTemplate.template.negative}
+    ) {
 
-`;
+        return strategy;
 
-}
+    }
+
+
+
+    function analyzeMood(
+
+        strategy,
+
+        input,
+
+        detect
+
+    ) {
+
+        return strategy;
+
+    }
+
+
+
+    function analyzeComposition(
+
+        strategy,
+
+        input,
+
+        detect
+
+    ) {
+
+        return strategy;
+
+    }
+
+
+
+    /* ==========================================================
+       MAIN COMPOSER
+    ========================================================== */
+
+    function compose(
+
+        input,
+
+        detect
+
+    ) {
+
+        let strategy =
+
+            createBaseStrategy(
+
+                input,
+
+                detect
+
+            );
+
+
+
+        strategy = analyzeIntent(
+
+            strategy,
+
+            input,
+
+            detect
+
+        );
+
+
+
+        strategy = analyzeObjective(
+
+            strategy,
+
+            input,
+
+            detect
+
+        );
+
+
+
+        strategy = analyzeMood(
+
+            strategy,
+
+            input,
+
+            detect
+
+        );
+
+
+
+        strategy = analyzeComposition(
+
+            strategy,
+
+            input,
+
+            detect
+
+        );
+
+
+
+        return strategy;
+
+    }
+
+
+
+    /* ==========================================================
+       PUBLIC API
+    ========================================================== */
+
+    return {
+
+        version: VERSION,
+
+        compose: compose,
+
+        resolve: resolve,
+
+        defaults: cloneStrategy
+
+    };
+
+})();
+
+
+
+/* ==========================================================
+   GLOBAL
+========================================================== */
+
+window.PromptComposer = PromptComposer;
+
+
+
+/* ==========================================================
+   READY
+========================================================== */
+
+console.log(
+
+    "%cPromptComposer v5 Loaded",
+
+    "color:#06b6d4;font-weight:bold;"
+
+);
+
+
+
+/* ==========================================================
+   END PART 1
+========================================================== */
