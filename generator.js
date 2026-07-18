@@ -237,11 +237,9 @@ input.idea
 
     output.push(
 
-input.category ||
+finalCategory
 
-    detect.category
-
-    );
+);
 
     output.push("");
 
