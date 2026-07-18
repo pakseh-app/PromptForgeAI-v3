@@ -1,192 +1,445 @@
 /* ==========================================================
    PROMPTFORGE AI
-   detector.js
-   Version : 4.1.0
+   SMART DETECTOR ENGINE
+   Version : 5.0.0
 ========================================================== */
 
 
 /* ==========================================================
-   KEYWORD DATABASE
+   CONFIG
 ========================================================== */
 
-const DetectorRules={
+const DetectorEngine={
 
-category:{
+    version:"5.0.0",
 
-poster:[
-"poster",
-"pamflet"
-],
-
-banner:[
-"banner",
-"spanduk",
-"baliho"
-],
-
-flyer:[
-"flyer",
-"brosur"
-],
-
-thumbnail:[
-"thumbnail",
-"youtube"
-],
-
-logo:[
-"logo",
-"brand"
-],
-
-undangan:[
-"undangan",
-"wedding",
-"nikah"
-]
-
-},
-
-
-
-style:{
-
-modern:[
-"modern",
-"minimal",
-"clean"
-],
-
-luxury:[
-"luxury",
-"mewah",
-"premium",
-"elegan"
-],
-
-futuristic:[
-"future",
-"futuristik",
-"cyber"
-],
-
-islamic:[
-"islam",
-"masjid",
-"pengajian",
-"ramadhan",
-"muharram"
-],
-
-cute:[
-"cute",
-"imut",
-"kawaii"
-],
-
-cartoon:[
-"kartun",
-"cartoon",
-"pixar",
-"3d"
-]
-
-},
-
-
-
-color:{
-
-red:[
-"merah",
-"red"
-],
-
-blue:[
-"biru",
-"blue"
-],
-
-green:[
-"hijau",
-"green"
-],
-
-gold:[
-"gold",
-"emas"
-],
-
-black:[
-"hitam",
-"black"
-],
-
-white:[
-"putih",
-"white"
-]
-
-},
-
-
-
-audience:{
-
-kids:[
-"anak",
-"tk",
-"paud"
-],
-
-teen:[
-"remaja",
-"sma"
-],
-
-adult:[
-"dewasa"
-],
-
-family:[
-"keluarga"
-]
-
-}
+    debug:false
 
 };
 
 
 
 /* ==========================================================
-   MAIN DETECTOR
+   CATEGORY DATABASE
 ========================================================== */
 
-function detectPrompt(text){
+const CategoryDatabase=[
 
-    text=text.toLowerCase();
+{
 
-    return{
+type:"Poster",
 
-        category:
+keywords:[
 
-        detectCategory(text),
+"poster",
+"poster digital",
+"poster event",
+"pamflet",
+"pengumuman"
 
-        style:
+]
 
-        detectStyle(text),
+},
 
-        color:
+{
 
-        detectColor(text),
+type:"Banner",
 
-        audience:
+keywords:[
 
-        detectAudience(text)
+"banner",
+"spanduk",
+"sepanduk",
+"baliho",
+"billboard",
+"x-banner",
+"x banner",
+"roll banner",
+"standing banner"
 
-    };
+]
+
+},
+
+{
+
+type:"Flyer",
+
+keywords:[
+
+"flyer",
+"brosur",
+"leaflet",
+"selebaran"
+
+]
+
+},
+
+{
+
+type:"Logo",
+
+keywords:[
+
+"logo",
+"branding",
+"brand",
+"emblem",
+"maskot"
+
+]
+
+},
+
+{
+
+type:"Thumbnail",
+
+keywords:[
+
+"thumbnail",
+"youtube",
+"cover youtube",
+"cover video"
+
+]
+
+},
+
+{
+
+type:"Undangan",
+
+keywords:[
+
+"undangan",
+"invitation",
+"wedding invitation",
+"kartu undangan"
+
+]
+
+},
+
+{
+
+type:"Packaging",
+
+keywords:[
+
+"packaging",
+"kemasan",
+"label produk",
+"box produk"
+
+]
+
+},
+
+{
+
+type:"Business Card",
+
+keywords:[
+
+"kartu nama",
+"business card"
+
+]
+
+},
+
+{
+
+type:"Certificate",
+
+keywords:[
+
+"sertifikat",
+"certificate",
+"piagam"
+
+]
+
+},
+
+{
+
+type:"Social Media",
+
+keywords:[
+
+"instagram",
+"facebook",
+"tiktok",
+"feed",
+"story",
+"reels",
+"shorts"
+
+]
+
+},
+
+{
+
+type:"Website",
+
+keywords:[
+
+"website",
+"landing page",
+"homepage",
+"web design"
+
+]
+
+},
+
+{
+
+type:"Mobile App",
+
+keywords:[
+
+"mobile app",
+"android",
+"ios",
+"ui app",
+"aplikasi"
+
+]
+
+},
+
+{
+
+type:"Presentation",
+
+keywords:[
+
+"presentasi",
+"powerpoint",
+"ppt",
+"slide"
+
+]
 
 }
+
+];
+
+
+
+/* ==========================================================
+   STYLE DATABASE
+========================================================== */
+
+const StyleDatabase=[
+
+{
+
+type:"Modern",
+
+keywords:[
+
+"modern",
+"clean",
+"minimalis",
+"simple"
+
+]
+
+},
+
+{
+
+type:"Luxury",
+
+keywords:[
+
+"luxury",
+"premium",
+"gold",
+"elegan",
+"mewah"
+
+]
+
+},
+
+{
+
+type:"Corporate",
+
+keywords:[
+
+"corporate",
+"company",
+"kantor",
+"office"
+
+]
+
+},
+
+{
+
+type:"Islamic",
+
+keywords:[
+
+"islam",
+"islami",
+"masjid",
+"pengajian",
+"maulid",
+"muharram",
+"ramadhan",
+"santri",
+"muslim"
+
+]
+
+},
+
+{
+
+type:"Futuristic",
+
+keywords:[
+
+"future",
+"futuristic",
+"technology",
+"ai",
+"robot"
+
+]
+
+},
+
+{
+
+type:"Vintage",
+
+keywords:[
+
+"retro",
+"vintage",
+"classic"
+
+]
+
+},
+
+{
+
+type:"3D",
+
+keywords:[
+
+"3d",
+"pixar",
+"disney",
+"clay"
+
+]
+
+},
+
+{
+
+type:"Anime",
+
+keywords:[
+
+"anime",
+"manga",
+"japanese"
+
+]
+
+},
+
+{
+
+type:"Photorealistic",
+
+keywords:[
+
+"realistic",
+"photorealistic",
+"real photo"
+
+]
+
+}
+
+];
+
+/* ==========================================================
+   TEXT NORMALIZER
+========================================================== */
+
+function normalizeText(text){
+
+    if(!text){
+
+        return "";
+
+    }
+
+    return text
+
+        .toLowerCase()
+
+        .replace(/\s+/g," ")
+
+        .replace(/[^\w\s.,:/x-]/g,"")
+
+        .trim();
+
+}
+
+
+
+/* ==========================================================
+   KEYWORD MATCHER
+========================================================== */
+
+function keywordMatch(text,database){
+
+    const source=normalizeText(text);
+
+    for(const item of database){
+
+        for(const keyword of item.keywords){
+
+            if(
+
+                source.includes(
+
+                    keyword.toLowerCase()
+
+                )
+
+            ){
+
+                return item.type;
+
+            }
+
+        }
+
+    }
+
+    return null;
+
+}
+
+
 
 /* ==========================================================
    CATEGORY DETECTOR
@@ -194,15 +447,19 @@ function detectPrompt(text){
 
 function detectCategory(text){
 
-    return findKeyword(
+    const result=
 
-        DetectorRules.category,
+    keywordMatch(
 
         text,
 
-        "General"
+        CategoryDatabase
 
     );
+
+    return result ||
+
+    "General Design";
 
 }
 
@@ -214,294 +471,219 @@ function detectCategory(text){
 
 function detectStyle(text){
 
-    return findKeyword(
+    const result=
 
-        DetectorRules.style,
-
-        text,
-
-        "Modern"
-
-    );
-
-}
-
-
-
-/* ==========================================================
-   COLOR DETECTOR
-========================================================== */
-
-function detectColor(text){
-
-    return findKeyword(
-
-        DetectorRules.color,
+    keywordMatch(
 
         text,
 
-        "Auto"
+        StyleDatabase
 
     );
 
-}
+    return result ||
 
-
-
-/* ==========================================================
-   AUDIENCE DETECTOR
-========================================================== */
-
-function detectAudience(text){
-
-    return findKeyword(
-
-        DetectorRules.audience,
-
-        text,
-
-        "General"
-
-    );
+    "Modern";
 
 }
 
 
 
 /* ==========================================================
-   KEYWORD ENGINE
+   CONFIDENCE SCORE
 ========================================================== */
 
-function findKeyword(database,text,defaultValue){
+function calculateConfidence(text){
 
-    for(const key in database){
-
-        const keywords=database[key];
-
-        for(const word of keywords){
-
-            if(text.includes(word)){
-
-                return capitalize(key);
-
-            }
-
-        }
-
-    }
-
-    return defaultValue;
-
-}
-
-
-
-/* ==========================================================
-   TEXT NORMALIZER
-========================================================== */
-
-function normalizeText(text){
-
-    return text
-
-        .toLowerCase()
-
-        .trim()
-
-        .replace(/\s+/g," ");
-
-}
-
-
-
-/* ==========================================================
-   CAPITALIZE
-========================================================== */
-
-function capitalize(text){
-
-    if(!text) return "";
-
-    return text.charAt(0).toUpperCase()
-
-        + text.slice(1);
-
-}
-
-
-
-/* ==========================================================
-   MULTI DETECT
-========================================================== */
-
-function detectAll(text){
-
-    text=normalizeText(text);
-
-    return{
-
-        category:detectCategory(text),
-
-        style:detectStyle(text),
-
-        color:detectColor(text),
-
-        audience:detectAudience(text)
-
-    };
-
-}
-
-
-
-/* ==========================================================
-   PART 3 BELOW
-========================================================== */
-
-/* ==========================================================
-   SMART PROJECT TYPE DETECTOR
-========================================================== */
-
-const ProjectRules={
-
-food:[
-"bakso",
-"mie",
-"mie ayam",
-"soto",
-"ayam",
-"burger",
-"pizza",
-"kopi",
-"coffee",
-"cafe",
-"es teh",
-"minuman",
-"kuliner",
-"makanan"
-],
-
-wedding:[
-"nikah",
-"akad",
-"resepsi",
-"wedding",
-"pengantin",
-"undangan",
-"pernikahan"
-],
-
-islamic:[
-"pengajian",
-"masjid",
-"ramadhan",
-"muharram",
-"idul fitri",
-"idul adha",
-"kajian",
-"santri",
-"quran",
-"islam"
-],
-
-education:[
-"wisuda",
-"kelulusan",
-"kampus",
-"universitas",
-"sekolah",
-"smp",
-"sma",
-"sd",
-"paud",
-"tk"
-],
-
-marketing:[
-"promo",
-"diskon",
-"sale",
-"flash sale",
-"cashback",
-"gratis",
-"voucher",
-"murah"
-],
-
-social:[
-"youtube",
-"tiktok",
-"instagram",
-"facebook",
-"shorts",
-"reels"
-]
-
-};
-
-
-
-/* ==========================================================
-   PROJECT DETECTOR
-========================================================== */
-
-function detectProjectType(text){
-
-    return findKeyword(
-
-        ProjectRules,
-
-        text,
-
-        "General"
-
-    );
-
-}
-
-
-
-/* ==========================================================
-   ORIENTATION DETECTOR
-========================================================== */
-
-function detectOrientation(text){
+    let score=40;
 
     if(
 
-        text.includes("portrait") ||
-
-        text.includes("vertikal")
+        detectCategory(text)!=="General Design"
 
     ){
 
-        return "Portrait";
+        score+=25;
 
     }
 
     if(
 
-        text.includes("landscape") ||
-
-        text.includes("horizontal")
+        detectStyle(text)!=="Modern"
 
     ){
 
-        return "Landscape";
+        score+=20;
 
     }
 
     if(
 
-        text.includes("square") ||
-
-        text.includes("1:1")
+        /\d/.test(text)
 
     ){
 
-        return "Square";
+        score+=5;
 
     }
+
+    if(
+
+        text.length>40
+
+    ){
+
+        score+=10;
+
+    }
+
+    return Math.min(
+
+        score,
+
+        100
+
+    );
+
+}
+
+/* ==========================================================
+   CANVAS SIZE DETECTOR
+========================================================== */
+
+function detectCanvasSize(text){
+
+    const source=
+
+    normalizeText(text);
+
+
+
+    if(
+
+        source.includes("a5")
+
+    ){
+
+        return "A5";
+
+    }
+
+
+
+    if(
+
+        source.includes("a4")
+
+    ){
+
+        return "A4";
+
+    }
+
+
+
+    if(
+
+        source.includes("a3")
+
+    ){
+
+        return "A3";
+
+    }
+
+
+
+    if(
+
+        source.includes("a2")
+
+    ){
+
+        return "A2";
+
+    }
+
+
+
+    if(
+
+        source.includes("a1")
+
+    ){
+
+        return "A1";
+
+    }
+
+
+
+    if(
+
+        source.includes("16:9")
+
+    ){
+
+        return "16:9";
+
+    }
+
+
+
+    if(
+
+        source.includes("9:16")
+
+    ){
+
+        return "9:16";
+
+    }
+
+
+
+    if(
+
+        source.includes("4:5")
+
+    ){
+
+        return "4:5";
+
+    }
+
+
+
+    if(
+
+        source.includes("1:1")
+
+    ){
+
+        return "1:1";
+
+    }
+
+
+
+    const meter=
+
+    source.match(
+
+        /(\d+[.,]?\d*)\s*x\s*(\d+[.,]?\d*)\s*(meter|m)?/
+
+    );
+
+
+
+    if(meter){
+
+        return `${meter[1]} x ${meter[2]} Meter`;
+
+    }
+
+
 
     return "Auto";
 
@@ -510,76 +692,324 @@ function detectOrientation(text){
 
 
 /* ==========================================================
-   QUALITY LEVEL
+   COLOR PALETTE DETECTOR
 ========================================================== */
 
-function detectQuality(text){
+function detectColor(text){
+
+    const source=
+
+    normalizeText(text);
+
+
 
     if(
 
-        text.includes("8k") ||
-
-        text.includes("ultra hd")
+        source.includes("biru")
 
     ){
 
-        return "Ultra";
+        return "Blue";
 
     }
+
+
 
     if(
 
-        text.includes("4k")
+        source.includes("merah")
 
     ){
 
-        return "High";
+        return "Red";
 
     }
 
-    return "Standard";
+
+
+    if(
+
+        source.includes("hijau")
+
+    ){
+
+        return "Green";
+
+    }
+
+
+
+    if(
+
+        source.includes("ungu")
+
+    ){
+
+        return "Purple";
+
+    }
+
+
+
+    if(
+
+        source.includes("hitam")
+
+    ){
+
+        return "Black";
+
+    }
+
+
+
+    if(
+
+        source.includes("putih")
+
+    ){
+
+        return "White";
+
+    }
+
+
+
+    if(
+
+        source.includes("emas") ||
+
+        source.includes("gold")
+
+    ){
+
+        return "Gold";
+
+    }
+
+
+
+    if(
+
+        source.includes("orange")
+
+    ){
+
+        return "Orange";
+
+    }
+
+
+
+    return "Auto";
 
 }
 
 
 
 /* ==========================================================
-   IMPROVED DETECTOR
+   TARGET AUDIENCE DETECTOR
 ========================================================== */
 
-function detectPrompt(text){
+function detectAudience(text){
 
-    text=normalizeText(text);
+    const source=
+
+    normalizeText(text);
+
+
+
+    if(
+
+        source.includes("anak")
+
+    ){
+
+        return "Children";
+
+    }
+
+
+
+    if(
+
+        source.includes("remaja")
+
+    ){
+
+        return "Teenager";
+
+    }
+
+
+
+    if(
+
+        source.includes("dewasa")
+
+    ){
+
+        return "Adult";
+
+    }
+
+
+
+    if(
+
+        source.includes("pengajian") ||
+
+        source.includes("masjid")
+
+    ){
+
+        return "Muslim Community";
+
+    }
+
+
+
+    if(
+
+        source.includes("perusahaan")
+
+    ){
+
+        return "Corporate";
+
+    }
+
+
+
+    if(
+
+        source.includes("wedding") ||
+
+        source.includes("pernikahan")
+
+    ){
+
+        return "Wedding Audience";
+
+    }
+
+
+
+    return "General Audience";
+
+}
+
+/* ==========================================================
+   SMART DETECTOR ENGINE
+========================================================== */
+
+function detectPromptCategory(text){
+
+    const source=
+
+    normalizeText(text);
+
+
+
+    const category=
+
+    detectCategory(source);
+
+
+
+    const style=
+
+    detectStyle(source);
+
+
+
+    const canvas=
+
+    detectCanvasSize(source);
+
+
+
+    const color=
+
+    detectColor(source);
+
+
+
+    const audience=
+
+    detectAudience(source);
+
+
+
+    const confidence=
+
+    calculateConfidence(source);
+
+
+
+    return{
+
+        category,
+
+        style,
+
+        canvas,
+
+        color,
+
+        audience,
+
+        confidence,
+
+        source
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   SMART SUMMARY
+========================================================== */
+
+function getDetectionSummary(result){
 
     return{
 
         category:
 
-        detectCategory(text),
+        result.category,
+
+
 
         style:
 
-        detectStyle(text),
+        result.style,
+
+
+
+        canvas:
+
+        result.canvas,
+
+
 
         color:
 
-        detectColor(text),
+        result.color,
+
+
 
         audience:
 
-        detectAudience(text),
+        result.audience,
 
-        project:
 
-        detectProjectType(text),
 
-        orientation:
+        confidence:
 
-        detectOrientation(text),
-
-        quality:
-
-        detectQuality(text)
+        result.confidence+"%"
 
     };
 
@@ -588,143 +1018,44 @@ function detectPrompt(text){
 
 
 /* ==========================================================
-   DEBUG
+   DEBUG MODE
 ========================================================== */
 
-function detectorPreview(text){
+function debugDetection(text){
 
-    console.table(
+    if(
 
-        detectPrompt(text)
+        !DetectorEngine.debug
 
-    );
+    ){
 
-}
+        return;
 
-/* ==========================================================
-   HELPER FUNCTIONS
-========================================================== */
-
-function containsAny(text, keywords){
-
-    text = normalizeText(text);
-
-    return keywords.some(keyword =>
-
-        text.includes(
-
-            normalizeText(keyword)
-
-        )
-
-    );
-
-}
+    }
 
 
-
-/* ==========================================================
-   DETECTOR INFORMATION
-========================================================== */
-
-function getDetectorVersion(){
-
-    return{
-
-        name : "PromptForge Smart Detector",
-
-        version : "4.1.0",
-
-        author : "Pakseh"
-
-    };
-
-}
-
-
-
-/* ==========================================================
-   PUBLIC API
-========================================================== */
-
-window.PromptDetector={
-
-    detect:detectPrompt,
-
-    detectCategory,
-
-    detectStyle,
-
-    detectColor,
-
-    detectAudience,
-
-    detectProjectType,
-
-    detectOrientation,
-
-    detectQuality,
-
-    normalizeText,
-
-    version:getDetectorVersion
-
-};
-
-
-
-/* ==========================================================
-   SELF TEST
-========================================================== */
-
-function detectorSelfTest(){
 
     console.group(
 
-        "PromptForge Detector Test"
+        "PromptForge Smart Detector"
 
     );
 
+
+
     console.table(
 
-        detectPrompt(
+        getDetectionSummary(
 
-            "Poster promo bakso modern 8K vertikal"
+            detectPromptCategory(text)
 
         )
 
     );
+
+
 
     console.groupEnd();
 
 }
 
-
-
-/* ==========================================================
-   AUTO INIT
-========================================================== */
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    ()=>{
-
-        console.log(
-
-            "%cPromptForge Smart Detector v4.1 Loaded",
-
-            "color:#22c55e;font-weight:bold;font-size:13px;"
-
-        );
-
-    }
-
-);
-
-
-
-/* ==========================================================
-   END OF FILE
-========================================================== */
