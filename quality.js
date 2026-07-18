@@ -639,3 +639,190 @@ function calculatePromptQuality(prompt){
    PART 4 BELOW
 ========================================================== */
 
+/* ==========================================================
+   PUBLIC API
+========================================================== */
+
+window.PromptQuality={
+
+    calculate:calculatePromptQuality,
+
+    analyze:analyzePrompt,
+
+    statistics:getPromptStatistics,
+
+    level:getQualityLevel,
+
+    version:getQualityVersion
+
+};
+
+
+
+/* ==========================================================
+   VERSION
+========================================================== */
+
+function getQualityVersion(){
+
+    return{
+
+        name:"PromptForge Quality Engine",
+
+        version:"4.1.0",
+
+        author:"Pakseh"
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   AUTO REFRESH
+========================================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+        const output=
+
+        document.getElementById("result");
+
+        if(!output) return;
+
+        output.addEventListener(
+
+            "input",
+
+            ()=>{
+
+                calculatePromptQuality(
+
+                    output.value
+
+                );
+
+            }
+
+        );
+
+    }
+
+);
+
+
+
+/* ==========================================================
+   SELF TEST
+========================================================== */
+
+function qualitySelfTest(){
+
+    const sample=`
+
+PROJECT
+
+Poster Promosi Bakso
+
+CATEGORY
+
+Poster
+
+STYLE
+
+Modern
+
+TARGET AI
+
+ChatGPT
+
+OBJECTIVE
+
+Create professional poster
+
+CANVAS SIZE
+
+A4
+
+COLOR PALETTE
+
+Red Black
+
+TARGET AUDIENCE
+
+General
+
+VISUAL STYLE
+
+Premium
+
+TYPOGRAPHY
+
+Bold
+
+LAYOUT
+
+Modern
+
+LIGHTING
+
+Studio
+
+CAMERA
+
+Front View
+
+NEGATIVE PROMPT
+
+Blur
+
+OUTPUT FORMAT
+
+Ultra HD
+
+`;
+
+    console.group(
+
+        "PromptForge Quality Test"
+
+    );
+
+    console.table(
+
+        analyzePrompt(
+
+            sample
+
+        )
+
+    );
+
+    console.groupEnd();
+
+}
+
+
+
+/* ==========================================================
+   READY
+========================================================== */
+
+console.log(
+
+    "%cPromptForge Quality Engine v4.1 Loaded",
+
+    "color:#3b82f6;font-size:13px;font-weight:bold;"
+
+);
+
+
+
+/* ==========================================================
+   END OF FILE
+========================================================== */
