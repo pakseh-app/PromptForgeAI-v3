@@ -874,7 +874,6 @@ Modern Composition
 
     return output.join("\n");
 
-}
 
 
 
