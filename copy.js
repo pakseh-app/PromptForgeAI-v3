@@ -141,7 +141,7 @@ function copyResult(){
 
     copyFromElement(
 
-        "result"
+        "output"
 
     );
 
