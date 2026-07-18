@@ -805,3 +805,450 @@ function initializeAIEngine(){
 
 }
 
+/* =====================================================
+   PART 4
+   GENERATE PIPELINE ENGINE v5
+===================================================== */
+
+
+/* =====================================================
+   GENERATE BUTTON INITIALIZER
+===================================================== */
+
+
+function initGenerateButton(){
+
+
+
+    const button =
+
+        document.getElementById(
+
+            "generate"
+
+        );
+
+
+
+    if(!button){
+
+
+        console.warn(
+
+            "Generate button tidak ditemukan"
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+    button.addEventListener(
+
+        "click",
+
+        ()=>{
+
+
+            runPromptGeneration();
+
+
+
+        }
+
+    );
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+   MAIN GENERATE FUNCTION
+===================================================== */
+
+
+async function runPromptGeneration(){
+
+
+
+    const input =
+
+        collectPromptInput();
+
+
+
+
+
+    if(
+
+        !input
+
+    ){
+
+
+        alert(
+
+            "Silahkan isi data prompt terlebih dahulu"
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    showGeneratingState();
+
+
+
+
+    try{
+
+
+
+        const composer =
+
+            getComposer();
+
+
+
+
+        let result;
+
+
+
+
+        if(
+
+            composer &&
+
+            typeof composer.run==="function"
+
+        ){
+
+
+
+            result =
+
+                composer.run(
+
+                    input
+
+                );
+
+
+
+        }
+
+        else{
+
+
+
+            console.warn(
+
+                "Composer v5 belum tersedia, menggunakan generator lama"
+
+            );
+
+
+
+            result =
+
+                await runLegacyGenerator(
+
+                    input
+
+                );
+
+
+
+        }
+
+
+
+
+
+
+        PromptForgeApp.result = result;
+
+
+
+
+        displayPromptResult(
+
+            result
+
+        );
+
+
+
+
+
+        savePromptHistory(
+
+            result
+
+        );
+
+
+
+
+    }
+
+    catch(error){
+
+
+
+        console.error(
+
+            "Generate Error:",
+
+            error
+
+        );
+
+
+
+        showGenerateError(
+
+            error
+
+        );
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+   COLLECT USER INPUT
+===================================================== */
+
+
+function collectPromptInput(){
+
+
+
+    const fields =
+
+        document.querySelectorAll(
+
+            "input, textarea, select"
+
+        );
+
+
+
+    const data={};
+
+
+
+
+    fields.forEach(
+
+        field=>{
+
+
+
+            if(
+
+                field.value &&
+
+                field.id
+
+            ){
+
+
+
+                data[field.id]=
+
+                    field.value;
+
+
+
+            }
+
+
+
+        }
+
+    );
+
+
+
+
+
+    return Object.keys(data).length
+
+        ?
+
+        data
+
+        :
+
+        null;
+
+
+
+}
+
+
+
+
+
+/* =====================================================
+   FALLBACK GENERATOR
+===================================================== */
+
+
+async function runLegacyGenerator(data){
+
+
+
+    if(
+
+        typeof generateProfessionalPrompt==="function"
+
+    ){
+
+
+
+        return generateProfessionalPrompt(
+
+            data
+
+        );
+
+
+
+    }
+
+
+
+    return {
+
+
+        success:false,
+
+
+        message:
+
+        "Generator belum tersedia"
+
+
+
+    };
+
+
+}
+
+
+
+
+
+/* =====================================================
+   GENERATE UI STATE
+===================================================== */
+
+
+function showGeneratingState(){
+
+
+
+    const output =
+
+        document.getElementById(
+
+            "result"
+
+        );
+
+
+
+    if(output){
+
+
+
+        output.innerHTML =
+
+        `
+
+        <div class="loading">
+
+            ⚡ AI sedang menyusun prompt...
+
+        </div>
+
+        `;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+function showGenerateError(error){
+
+
+
+    const output =
+
+        document.getElementById(
+
+            "result"
+
+        );
+
+
+
+    if(output){
+
+
+
+        output.innerHTML =
+
+        `
+
+        <div class="error">
+
+            ❌ ${error.message}
+
+        </div>
+
+        `;
+
+
+
+    }
+
+
+
+}
+
