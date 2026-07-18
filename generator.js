@@ -33,13 +33,11 @@ function generateProfessionalPrompt(){
 
         collectInput();
 
-        const detect=
+        const detect = PromptDetector.detect(
 
-        detectPromptCategory(
+    input.idea
 
-            input.idea
-
-        );
+);
 
         const template=
 
