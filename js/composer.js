@@ -3,105 +3,160 @@
    COMPOSER.JS
 ===================================================== */
 
-function composeIdea(text){
+let currentTemplate = null;
 
-    text = text.toLowerCase();
 
-    return{
+/* =====================================================
+   LOAD TEMPLATE
+===================================================== */
 
-        object:getObject(text),
+function loadTemplate(template){
 
-        headline:getHeadline(text),
+    currentTemplate = template;
 
-        cta:getCTA(text),
+    // isi dropdown
 
-        price:getPrice(text)
+    setValue("category", template.category);
 
-    };
+    setValue("style", template.style);
+
+    setValue("size", template.size);
+
+    setValue("ai", template.ai);
+
+    // isi textarea ide
+
+    const idea = document.getElementById("idea");
+
+    if(idea){
+
+        idea.value =
+`PROJECT
+
+${template.title}
+
+CATEGORY
+
+${template.category}
+
+STYLE
+
+${template.style}
+
+OBJECTIVE
+
+${template.template.objective}
+
+`;
+
+    }
 
 }
 
-function getObject(text){
 
-    const list=[
+/* =====================================================
+   SET VALUE
+===================================================== */
 
-        "bakso",
-        "mie ayam",
-        "ayam geprek",
-        "kopi",
-        "pizza",
-        "burger",
-        "laundry",
-        "barbershop",
-        "seminar",
-        "pengajian"
+function setValue(id,value){
 
-    ];
+    const element=document.getElementById(id);
 
-    for(const item of list){
+    if(!element) return;
 
-        if(text.includes(item)){
+    for(let option of element.options){
 
-            return item.charAt(0).toUpperCase()+item.slice(1);
+        if(option.value===value ||
+
+           option.text===value){
+
+            element.value=option.value;
+
+            return;
 
         }
 
     }
 
-    return "Produk";
+}
+
+
+/* =====================================================
+   GET CURRENT TEMPLATE
+===================================================== */
+
+function getCurrentTemplate(){
+
+    return currentTemplate;
 
 }
 
-function getHeadline(text){
 
-    if(text.includes("bakso"))
+/* =====================================================
+   CLEAR
+===================================================== */
 
-        return "BAKSO PEDAS SUPER MANTAP";
+function clearComposer(){
 
-    if(text.includes("mie"))
+    currentTemplate=null;
 
-        return "MIE AYAM FAVORIT KELUARGA";
+    const idea=document.getElementById("idea");
 
-    if(text.includes("kopi"))
+    if(idea){
 
-        return "KOPI PALING NIKMAT";
-
-    if(text.includes("laundry"))
-
-        return "CUCI CEPAT HASIL MAKSIMAL";
-
-    return "PROMO SPESIAL";
-
-}
-
-function getCTA(text){
-
-    if(text.includes("bakso"))
-
-        return "Yuk Cobain Sekarang!";
-
-    if(text.includes("kopi"))
-
-        return "Nikmati Harimu Bersama Kopi Kami!";
-
-    if(text.includes("laundry"))
-
-        return "Hubungi Kami Hari Ini!";
-
-    return "Jangan Sampai Ketinggalan!";
-
-}
-
-function getPrice(text){
-
-    const match=text.match(/\d+/);
-
-    if(match){
-
-        return "Rp "+Number(match[0]).toLocaleString("id-ID");
+        idea.value="";
 
     }
 
-    return "-";
+}
+
+
+/* =====================================================
+   BUILD PROMPT
+===================================================== */
+
+function buildPrompt(userIdea){
+
+    if(!currentTemplate){
+
+        return userIdea;
+
+    }
+
+    return `
+
+${userIdea}
+
+--------------------------------------
+
+CATEGORY
+
+${currentTemplate.category}
+
+STYLE
+
+${currentTemplate.style}
+
+OBJECTIVE
+
+${currentTemplate.template.objective}
+
+COLOR
+
+${currentTemplate.template.color}
+
+LIGHTING
+
+${currentTemplate.template.lighting}
+
+CAMERA
+
+${currentTemplate.template.camera}
+
+NEGATIVE PROMPT
+
+${currentTemplate.template.negative}
+
+`;
 
 }
