@@ -170,6 +170,21 @@ function composePrompt(
 
 ){
 
+    const finalCategory =
+        input.category === "Auto Detect"
+            ? detect.category
+            : input.category;
+
+    const finalStyle =
+        input.style === "Auto Detect"
+            ? detect.style
+            : input.style;
+
+    const finalCanvas =
+        input.size === "Auto Detect"
+            ? detect.canvas
+            : input.size;
+
     let output=[];
 
     output.push(
