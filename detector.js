@@ -1059,3 +1059,348 @@ function debugDetection(text){
 
 }
 
+/* ==========================================================
+   AI TARGET DETECTOR
+========================================================== */
+
+function detectAI(text){
+
+    const source=
+
+    normalizeText(text);
+
+
+
+    if(source.includes("chatgpt")){
+
+        return "ChatGPT";
+
+    }
+
+
+
+    if(source.includes("gemini")){
+
+        return "Gemini";
+
+    }
+
+
+
+    if(source.includes("claude")){
+
+        return "Claude";
+
+    }
+
+
+
+    if(source.includes("midjourney")){
+
+        return "Midjourney";
+
+    }
+
+
+
+    if(source.includes("leonardo")){
+
+        return "Leonardo AI";
+
+    }
+
+
+
+    if(source.includes("ideogram")){
+
+        return "Ideogram";
+
+    }
+
+
+
+    if(source.includes("flux")){
+
+        return "Flux";
+
+    }
+
+
+
+    return "Universal";
+
+}
+
+
+
+/* ==========================================================
+   SMART ENHANCEMENT
+========================================================== */
+
+function enhanceDetection(result){
+
+    const output={
+
+        ...result
+
+    };
+
+
+
+    /* --------------------------------------
+       CATEGORY IMPROVEMENT
+    -------------------------------------- */
+
+    if(
+
+        output.category==="Banner" &&
+
+        output.style==="Modern" &&
+
+        output.source.includes("pengajian")
+
+    ){
+
+        output.style="Islamic";
+
+    }
+
+
+
+    if(
+
+        output.category==="Poster" &&
+
+        output.source.includes("anak")
+
+    ){
+
+        output.audience="Children";
+
+    }
+
+
+
+    if(
+
+        output.category==="Thumbnail"
+
+    ){
+
+        output.canvas="16:9";
+
+    }
+
+
+
+    if(
+
+        output.category==="Social Media"
+
+    ){
+
+        output.canvas="4:5";
+
+    }
+
+
+
+    /* --------------------------------------
+       CONFIDENCE BOOST
+    -------------------------------------- */
+
+    if(
+
+        output.category!=="General Design"
+
+    ){
+
+        output.confidence+=5;
+
+    }
+
+
+
+    if(
+
+        output.style!=="Modern"
+
+    ){
+
+        output.confidence+=5;
+
+    }
+
+
+
+    output.confidence=
+
+    Math.min(
+
+        output.confidence,
+
+        100
+
+    );
+
+
+
+    return output;
+
+}
+
+
+
+/* ==========================================================
+   PUBLIC DETECTOR
+========================================================== */
+
+function analyzePrompt(text){
+
+    let result=
+
+    detectPromptCategory(text);
+
+
+
+    result=
+
+    enhanceDetection(result);
+
+
+
+    result.ai=
+
+    detectAI(text);
+
+
+
+    return result;
+
+}
+
+/* ==========================================================
+   BACKWARD COMPATIBILITY
+========================================================== */
+
+window.detectPromptCategory=function(text){
+
+    return analyzePrompt(text);
+
+};
+
+
+
+window.detectCategory=function(text){
+
+    return analyzePrompt(text).category;
+
+};
+
+
+
+window.detectStyle=function(text){
+
+    return analyzePrompt(text).style;
+
+};
+
+
+
+window.detectCanvas=function(text){
+
+    return analyzePrompt(text).canvas;
+
+};
+
+
+
+window.detectColorPalette=function(text){
+
+    return analyzePrompt(text).color;
+
+};
+
+
+
+window.detectAudience=function(text){
+
+    return analyzePrompt(text).audience;
+
+};
+
+
+
+/* ==========================================================
+   PUBLIC API
+========================================================== */
+
+window.PromptDetector={
+
+    version:DetectorEngine.version,
+
+
+
+    analyze:analyzePrompt,
+
+
+
+    detect:detectPromptCategory,
+
+
+
+    category:detectCategory,
+
+
+
+    style:detectStyle,
+
+
+
+    canvas:detectCanvas,
+
+
+
+    color:detectColorPalette,
+
+
+
+    audience:detectAudience
+
+};
+
+
+
+/* ==========================================================
+   READY
+========================================================== */
+
+console.log(
+
+    "%cPromptForge Smart Detector v5.0 Loaded",
+
+    "color:#22c55e;font-size:14px;font-weight:bold;"
+
+);
+
+
+
+if(
+
+    DetectorEngine.debug
+
+){
+
+    console.log(
+
+        "Debug Mode Enabled"
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   END OF FILE
+========================================================== */
