@@ -1,11 +1,342 @@
-/* =====================================================
-   PROMPTFORGE AI v4
-   DETECTOR.JS
-===================================================== */
+/* ==========================================================
+   PROMPTFORGE AI
+   detector.js
+   Version : 4.1.0
+========================================================== */
 
-function smartDetect(text){
+
+/* ==========================================================
+   KEYWORD DATABASE
+========================================================== */
+
+const DetectorRules={
+
+category:{
+
+poster:[
+"poster",
+"pamflet"
+],
+
+banner:[
+"banner",
+"spanduk",
+"baliho"
+],
+
+flyer:[
+"flyer",
+"brosur"
+],
+
+thumbnail:[
+"thumbnail",
+"youtube"
+],
+
+logo:[
+"logo",
+"brand"
+],
+
+undangan:[
+"undangan",
+"wedding",
+"nikah"
+]
+
+},
+
+
+
+style:{
+
+modern:[
+"modern",
+"minimal",
+"clean"
+],
+
+luxury:[
+"luxury",
+"mewah",
+"premium",
+"elegan"
+],
+
+futuristic:[
+"future",
+"futuristik",
+"cyber"
+],
+
+islamic:[
+"islam",
+"masjid",
+"pengajian",
+"ramadhan",
+"muharram"
+],
+
+cute:[
+"cute",
+"imut",
+"kawaii"
+],
+
+cartoon:[
+"kartun",
+"cartoon",
+"pixar",
+"3d"
+]
+
+},
+
+
+
+color:{
+
+red:[
+"merah",
+"red"
+],
+
+blue:[
+"biru",
+"blue"
+],
+
+green:[
+"hijau",
+"green"
+],
+
+gold:[
+"gold",
+"emas"
+],
+
+black:[
+"hitam",
+"black"
+],
+
+white:[
+"putih",
+"white"
+]
+
+},
+
+
+
+audience:{
+
+kids:[
+"anak",
+"tk",
+"paud"
+],
+
+teen:[
+"remaja",
+"sma"
+],
+
+adult:[
+"dewasa"
+],
+
+family:[
+"keluarga"
+]
+
+}
+
+};
+
+
+
+/* ==========================================================
+   MAIN DETECTOR
+========================================================== */
+
+function detectPrompt(text){
 
     text=text.toLowerCase();
+
+    return{
+
+        category:
+
+        detectCategory(text),
+
+        style:
+
+        detectStyle(text),
+
+        color:
+
+        detectColor(text),
+
+        audience:
+
+        detectAudience(text)
+
+    };
+
+}
+
+/* ==========================================================
+   CATEGORY DETECTOR
+========================================================== */
+
+function detectCategory(text){
+
+    return findKeyword(
+
+        DetectorRules.category,
+
+        text,
+
+        "General"
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   STYLE DETECTOR
+========================================================== */
+
+function detectStyle(text){
+
+    return findKeyword(
+
+        DetectorRules.style,
+
+        text,
+
+        "Modern"
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   COLOR DETECTOR
+========================================================== */
+
+function detectColor(text){
+
+    return findKeyword(
+
+        DetectorRules.color,
+
+        text,
+
+        "Auto"
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   AUDIENCE DETECTOR
+========================================================== */
+
+function detectAudience(text){
+
+    return findKeyword(
+
+        DetectorRules.audience,
+
+        text,
+
+        "General"
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   KEYWORD ENGINE
+========================================================== */
+
+function findKeyword(database,text,defaultValue){
+
+    for(const key in database){
+
+        const keywords=database[key];
+
+        for(const word of keywords){
+
+            if(text.includes(word)){
+
+                return capitalize(key);
+
+            }
+
+        }
+
+    }
+
+    return defaultValue;
+
+}
+
+
+
+/* ==========================================================
+   TEXT NORMALIZER
+========================================================== */
+
+function normalizeText(text){
+
+    return text
+
+        .toLowerCase()
+
+        .trim()
+
+        .replace(/\s+/g," ");
+
+}
+
+
+
+/* ==========================================================
+   CAPITALIZE
+========================================================== */
+
+function capitalize(text){
+
+    if(!text) return "";
+
+    return text.charAt(0).toUpperCase()
+
+        + text.slice(1);
+
+}
+
+
+
+/* ==========================================================
+   MULTI DETECT
+========================================================== */
+
+function detectAll(text){
+
+    text=normalizeText(text);
 
     return{
 
@@ -15,92 +346,160 @@ function smartDetect(text){
 
         color:detectColor(text),
 
-        audience:detectAudience(text),
-
-        industry:detectIndustry(text),
-
-        platform:detectPlatform(text),
-
-        mood:detectMood(text),
-
-        purpose:detectPurpose(text)
+        audience:detectAudience(text)
 
     };
 
 }
 
-/* ===========================
-CATEGORY
-=========================== */
 
-function detectCategory(text){
 
-    if(/poster|pamflet/.test(text)) return "Poster";
+/* ==========================================================
+   PART 3 BELOW
+========================================================== */
 
-    if(/banner|xbanner|roll banner/.test(text)) return "Banner";
+/* ==========================================================
+   SMART PROJECT TYPE DETECTOR
+========================================================== */
 
-    if(/spanduk/.test(text)) return "Spanduk";
+const ProjectRules={
 
-    if(/flyer/.test(text)) return "Flyer";
+food:[
+"bakso",
+"mie",
+"mie ayam",
+"soto",
+"ayam",
+"burger",
+"pizza",
+"kopi",
+"coffee",
+"cafe",
+"es teh",
+"minuman",
+"kuliner",
+"makanan"
+],
 
-    if(/thumbnail|youtube|yt/.test(text)) return "Thumbnail";
+wedding:[
+"nikah",
+"akad",
+"resepsi",
+"wedding",
+"pengantin",
+"undangan",
+"pernikahan"
+],
 
-    if(/logo|branding/.test(text)) return "Logo";
+islamic:[
+"pengajian",
+"masjid",
+"ramadhan",
+"muharram",
+"idul fitri",
+"idul adha",
+"kajian",
+"santri",
+"quran",
+"islam"
+],
 
-    if(/undangan|akad|resepsi/.test(text)) return "Invitation";
+education:[
+"wisuda",
+"kelulusan",
+"kampus",
+"universitas",
+"sekolah",
+"smp",
+"sma",
+"sd",
+"paud",
+"tk"
+],
 
-    if(/kemasan|packaging|label/.test(text)) return "Packaging";
+marketing:[
+"promo",
+"diskon",
+"sale",
+"flash sale",
+"cashback",
+"gratis",
+"voucher",
+"murah"
+],
 
-    return "Poster";
+social:[
+"youtube",
+"tiktok",
+"instagram",
+"facebook",
+"shorts",
+"reels"
+]
+
+};
+
+
+
+/* ==========================================================
+   PROJECT DETECTOR
+========================================================== */
+
+function detectProjectType(text){
+
+    return findKeyword(
+
+        ProjectRules,
+
+        text,
+
+        "General"
+
+    );
 
 }
 
-/* ===========================
-STYLE
-=========================== */
 
-function detectStyle(text){
 
-    if(/luxury|mewah|gold/.test(text)) return "Luxury";
+/* ==========================================================
+   ORIENTATION DETECTOR
+========================================================== */
 
-    if(/minimal/.test(text)) return "Minimal";
+function detectOrientation(text){
 
-    if(/future|cyber|futuristik/.test(text)) return "Futuristic";
+    if(
 
-    if(/kartun|pixar|3d/.test(text)) return "3D Cartoon";
+        text.includes("portrait") ||
 
-    if(/real|realistis|photorealistic/.test(text)) return "Photorealistic";
+        text.includes("vertikal")
 
-    return "Modern";
+    ){
 
-}
+        return "Portrait";
 
-/* ===========================
-COLOR
-=========================== */
+    }
 
-function detectColor(text){
+    if(
 
-    const colors=[
-        "Merah",
-        "Biru",
-        "Hijau",
-        "Kuning",
-        "Hitam",
-        "Putih",
-        "Orange",
-        "Ungu",
-        "Pink",
-        "Emas",
-        "Silver",
-        "Coklat"
-    ];
+        text.includes("landscape") ||
 
-    for(const color of colors){
+        text.includes("horizontal")
 
-        if(text.includes(color.toLowerCase()))
+    ){
 
-            return color;
+        return "Landscape";
+
+    }
+
+    if(
+
+        text.includes("square") ||
+
+        text.includes("1:1")
+
+    ){
+
+        return "Square";
 
     }
 
@@ -108,132 +507,224 @@ function detectColor(text){
 
 }
 
-/* ===========================
-AUDIENCE
-=========================== */
 
-function detectAudience(text){
 
-    if(/anak/.test(text)) return "Anak";
+/* ==========================================================
+   QUALITY LEVEL
+========================================================== */
 
-    if(/remaja/.test(text)) return "Remaja";
+function detectQuality(text){
 
-    if(/dewasa/.test(text)) return "Dewasa";
+    if(
 
-    if(/keluarga/.test(text)) return "Keluarga";
+        text.includes("8k") ||
 
-    return "Umum";
+        text.includes("ultra hd")
 
-}
+    ){
 
-/* ===========================
-INDUSTRY
-=========================== */
+        return "Ultra";
 
-function detectIndustry(text){
+    }
 
-    if(/bakso|mie|ayam|kopi|cafe|kuliner|makanan|minuman/.test(text))
+    if(
 
-        return "Food";
+        text.includes("4k")
 
-    if(/nikah|akad|resepsi|pengantin/.test(text))
+    ){
 
-        return "Wedding";
+        return "High";
 
-    if(/ai|software|website|startup|teknologi/.test(text))
+    }
 
-        return "Technology";
-
-    if(/sekolah|sd|smp|sma|kampus/.test(text))
-
-        return "Education";
-
-    return "General";
+    return "Standard";
 
 }
 
-/* ===========================
-PLATFORM
-=========================== */
 
-function detectPlatform(text){
 
-    if(/instagram|ig|feed/.test(text))
+/* ==========================================================
+   IMPROVED DETECTOR
+========================================================== */
 
-        return "Instagram Feed";
+function detectPrompt(text){
 
-    if(/story/.test(text))
+    text=normalizeText(text);
 
-        return "Instagram Story";
+    return{
 
-    if(/tiktok/.test(text))
+        category:
 
-        return "TikTok";
+        detectCategory(text),
 
-    if(/youtube/.test(text))
+        style:
 
-        return "YouTube";
+        detectStyle(text),
 
-    if(/banner|spanduk/.test(text))
+        color:
 
-        return "Printing";
+        detectColor(text),
 
-    return "Universal";
+        audience:
 
-}
+        detectAudience(text),
 
-/* ===========================
-MOOD
-=========================== */
+        project:
 
-function detectMood(text){
+        detectProjectType(text),
 
-    if(/luxury|premium|mewah/.test(text))
+        orientation:
 
-        return "Luxury";
+        detectOrientation(text),
 
-    if(/ceria|happy/.test(text))
+        quality:
 
-        return "Playful";
+        detectQuality(text)
 
-    if(/elegan/.test(text))
-
-        return "Elegant";
-
-    if(/minimal/.test(text))
-
-        return "Minimal";
-
-    if(/futur/.test(text))
-
-        return "Futuristic";
-
-    return "Professional";
+    };
 
 }
 
-/* ===========================
-PURPOSE
-=========================== */
 
-function detectPurpose(text){
 
-    if(/promo|promosi|diskon/.test(text))
+/* ==========================================================
+   DEBUG
+========================================================== */
 
-        return "Promotion";
+function detectorPreview(text){
 
-    if(/branding|logo/.test(text))
+    console.table(
 
-        return "Branding";
+        detectPrompt(text)
 
-    if(/event|seminar|pengajian/.test(text))
-
-        return "Event";
-
-    if(/edukasi|belajar/.test(text))
-
-        return "Education";
-
-    return "General";
+    );
 
 }
+
+/* ==========================================================
+   HELPER FUNCTIONS
+========================================================== */
+
+function containsAny(text, keywords){
+
+    text = normalizeText(text);
+
+    return keywords.some(keyword =>
+
+        text.includes(
+
+            normalizeText(keyword)
+
+        )
+
+    );
+
+}
+
+
+
+/* ==========================================================
+   DETECTOR INFORMATION
+========================================================== */
+
+function getDetectorVersion(){
+
+    return{
+
+        name : "PromptForge Smart Detector",
+
+        version : "4.1.0",
+
+        author : "Pakseh"
+
+    };
+
+}
+
+
+
+/* ==========================================================
+   PUBLIC API
+========================================================== */
+
+window.PromptDetector={
+
+    detect:detectPrompt,
+
+    detectCategory,
+
+    detectStyle,
+
+    detectColor,
+
+    detectAudience,
+
+    detectProjectType,
+
+    detectOrientation,
+
+    detectQuality,
+
+    normalizeText,
+
+    version:getDetectorVersion
+
+};
+
+
+
+/* ==========================================================
+   SELF TEST
+========================================================== */
+
+function detectorSelfTest(){
+
+    console.group(
+
+        "PromptForge Detector Test"
+
+    );
+
+    console.table(
+
+        detectPrompt(
+
+            "Poster promo bakso modern 8K vertikal"
+
+        )
+
+    );
+
+    console.groupEnd();
+
+}
+
+
+
+/* ==========================================================
+   AUTO INIT
+========================================================== */
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+        console.log(
+
+            "%cPromptForge Smart Detector v4.1 Loaded",
+
+            "color:#22c55e;font-weight:bold;font-size:13px;"
+
+        );
+
+    }
+
+);
+
+
+
+/* ==========================================================
+   END OF FILE
+========================================================== */
