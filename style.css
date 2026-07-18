@@ -1569,6 +1569,62 @@ select option{
 
 }
 
+/* =====================================================
+   DARK MODE THEME v5
+===================================================== */
+
+.dark-mode{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+
+.dark-mode .card{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+
+.dark-mode textarea,
+.dark-mode select{
+
+    background:#111827;
+
+    color:white;
+
+}
+
+
+.dark-mode input{
+
+    background:#111827;
+
+    color:white;
+
+}
+
+
+.dark-mode .navbar{
+
+    background:#111827;
+
+}
+
+
+.dark-mode .page-header{
+
+    color:white;
+
+}
+
+
+
 /*===========================================================
 END OF FILE
 ===========================================================*/
