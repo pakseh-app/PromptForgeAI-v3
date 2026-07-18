@@ -149,6 +149,18 @@ function clearHistory(){
 
 function copyHistory(id){
 
+    if(
+
+        window.PromptClipboard
+
+    ){
+
+        PromptClipboard.copyHistory(id);
+
+        return;
+
+    }
+
     const item=
 
     getHistory().find(
@@ -162,12 +174,6 @@ function copyHistory(id){
     navigator.clipboard.writeText(
 
         item.prompt
-
-    );
-
-    alert(
-
-        "Prompt berhasil disalin."
 
     );
 
