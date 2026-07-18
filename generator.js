@@ -312,9 +312,10 @@ function composePrompt(
 
 ){
 
-   console.log("COMPOSE PROMPT BARU BERJALAN");
+    let output = [];
 
-
+    output.push("TEST PAKSEH 123456");
+    output.push("");
 
     /*
         FINAL SMART VALUES
